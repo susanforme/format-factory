@@ -14,7 +14,7 @@ jobs:
       - name: Install and Build
         run: |
           yarn install
-          yarn run build
+          yarn run build --base=/format-factory/
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
