@@ -5,11 +5,6 @@ const router = useRouter();
 const routes = router.getRoutes().filter((route) => {
   return route.redirect === undefined;
 });
-console.log(
-  "%c [ routes ]-6",
-  "font-size:13px; background:pink; color:#bf2c9f;",
-  routes
-);
 </script>
 
 <template>
@@ -36,7 +31,8 @@ console.log(
   flex-direction: column;
   justify-content: center;
   > main {
-    width: 80%;
+    width: 100%;
+    margin-top: 50px;
   }
 }
 header {
