@@ -1,12 +1,12 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-03-23 14:30:15
+ * @LastEditTime: 2023-03-23 15:16:49
  * @FilePath: \format-factory\src\views\Video.vue
  * @Description: 
 -->
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { initFfmpeg } from "../utils";
 import type { FFmpeg } from "@ffmpeg/ffmpeg";
 
@@ -20,14 +20,21 @@ async function init() {
   loading.value = true;
   loading.text = "初始化编解码器中...";
   ffmpeg = await initFfmpeg();
-
   loading.value = false;
 }
+
 init();
 </script>
 
 <template>
-  <div v-loading="loading.value" :element-loading-text="loading.text">123</div>
+  <div
+    class="video"
+    v-loading="loading.value"
+    :element-loading-text="loading.text"
+  ></div>
 </template>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.video {
+}
+</style>

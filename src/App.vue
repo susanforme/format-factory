@@ -1,6 +1,29 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { UploadFilled } from "@element-plus/icons-vue";
+import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
+import { genFileId } from "element-plus";
+import { computed, ref, watch } from "vue";
+import { fileList } from "./store";
 
+const upload = ref<UploadInstance>();
+const route = useRoute();
+
+const accept = computed(() => {
+  console.log(route.path);
+  if (route.path === "/video") {
+    return "video/*";
+  } else if (route.path === "/picture") {
+    return "audio/*";
+  }
+});
+
+const handleExceed: UploadProps["onExceed"] = (files) => {
+  upload.value!.clearFiles();
+  const file = files[0] as UploadRawFile;
+  file.uid = genFileId();
+  upload.value!.handleStart(file);
+};
 const router = useRouter();
 const routes = router.getRoutes().filter((route) => {
   return route.redirect === undefined;
@@ -19,7 +42,34 @@ const routes = router.getRoutes().filter((route) => {
       </div>
     </header>
     <main>
-      <router-view></router-view>
+      <div class="main">
+        <div class="file">
+          <!-- TODO: 队列 -->
+          <div class="info">系统信息</div>
+          <el-upload
+            v-model:file-list="fileList"
+            multiple
+            drag
+            ref="upload"
+            :limit="1"
+            :auto-upload="false"
+            :on-exceed="handleExceed"
+            :show-file-list="true"
+            :accept="accept"
+          >
+            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+            <div class="el-upload__text">
+              将文件拖到此处 或 <em>点击选择</em>
+            </div>
+          </el-upload>
+        </div>
+        <template v-if="fileList.length === 0">
+          <el-empty description="请先选择文件" />
+        </template>
+        <template v-else>
+          <router-view></router-view>
+        </template>
+      </div>
     </main>
   </div>
 </template>
@@ -33,6 +83,11 @@ const routes = router.getRoutes().filter((route) => {
   > main {
     width: 100%;
     margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    .main {
+      width: 80%;
+    }
   }
 }
 header {
