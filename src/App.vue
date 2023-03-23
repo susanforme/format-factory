@@ -5,18 +5,25 @@ import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
 import { genFileId } from "element-plus";
 import { computed, ref, watch } from "vue";
 import { fileList } from "./store";
+import UAParser from "ua-parser-js";
 
 const upload = ref<UploadInstance>();
 const route = useRoute();
 
 const accept = computed(() => {
-  console.log(route.path);
   if (route.path === "/video") {
     return "video/*";
   } else if (route.path === "/picture") {
     return "audio/*";
   }
 });
+
+watch(
+  () => route.path,
+  (path) => {
+    fileList.value = [];
+  }
+);
 
 const handleExceed: UploadProps["onExceed"] = (files) => {
   upload.value!.clearFiles();
@@ -28,6 +35,7 @@ const router = useRouter();
 const routes = router.getRoutes().filter((route) => {
   return route.redirect === undefined;
 });
+const ua = new UAParser(window.navigator.userAgent).getResult();
 </script>
 
 <template>
@@ -45,7 +53,21 @@ const routes = router.getRoutes().filter((route) => {
       <div class="main">
         <div class="file">
           <!-- TODO: 队列 -->
-          <div class="info">系统信息</div>
+          <div class="info">
+            <h2>系统信息:</h2>
+            <p>
+              浏览器: {{ ua.browser.name }}
+              {{ ua.browser.version }}
+            </p>
+            <p>
+              操作系统: {{ ua.os.name }}
+              {{ ua.os.version }}
+            </p>
+            <p>
+              cpu:
+              {{ ua.cpu.architecture }}
+            </p>
+          </div>
           <el-upload
             v-model:file-list="fileList"
             multiple
