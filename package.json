@@ -23,6 +23,7 @@
     "unplugin-auto-import": "^0.15.1",
     "unplugin-vue-components": "^0.24.1",
     "vite": "^4.2.0",
-    "vue-tsc": "^1.2.0"
+    "vue-tsc": "^1.2.0",
+    "vue-router": "^4.1.6"
   }
 }
