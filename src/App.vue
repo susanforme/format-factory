@@ -85,12 +85,12 @@ const ua = new UAParser(window.navigator.userAgent).getResult();
             </div>
           </el-upload>
         </div>
-        <template v-if="fileList.length === 0">
-          <el-empty description="请先选择文件" />
-        </template>
-        <template v-else>
-          <router-view></router-view>
-        </template>
+        <!-- <template v-if="fileList.length === 0"> -->
+        <!-- <el-empty description="请先选择文件" /> -->
+        <!-- </template> -->
+        <!-- <template v-else> -->
+        <router-view></router-view>
+        <!-- </template> -->
       </div>
     </main>
   </div>
