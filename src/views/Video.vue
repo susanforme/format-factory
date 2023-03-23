@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-03-23 16:32:21
+ * @LastEditTime: 2023-03-23 17:08:09
  * @FilePath: \format-factory\src\views\Video.vue
  * @Description: 
 -->
@@ -36,28 +36,6 @@ const formats = [
   "mxf",
   "rm",
   "rmvb",
-  "f4v",
-  "swf",
-  "mpg",
-  "mpeg",
-  "m4v",
-  "mp3",
-  "wav",
-  "aac",
-  "flac",
-  "m4a",
-  "wma",
-  "ogg",
-  "ape",
-  "ac3",
-  "dts",
-  "amr",
-  "mka",
-  "m3u",
-  "m3u8",
-  "pls",
-  "cue",
-  "flv",
   "f4v",
 ];
 const loading = reactive({
@@ -95,7 +73,6 @@ init();
             ></el-option>
           </el-select>
         </el-form-item>
-
         <el-form-item label="输出名称">
           <el-input placeholder="请输入" v-model="config.name"></el-input>
         </el-form-item>

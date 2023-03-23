@@ -10,9 +10,11 @@ export default defineConfig({
     vue(),
     AutoImport({
       resolvers: [ElementPlusResolver()],
+      dts: "src/auto-imports.d.ts",
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver({})],
+      dts: "src/components.d.ts",
     }),
   ],
 });
