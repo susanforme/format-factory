@@ -8,10 +8,10 @@ export async function initFfmpeg() {
     progress: (p) => {
       console.log(p);
     }, //回调 展示进度
-    workerPath: new URL(
-      "@ffmpeg/core/dist/ffmpeg-core.worker.js",
-      import.meta.url
-    ).href,
+    // workerPath: new URL(
+    //   "@ffmpeg/core/dist/ffmpeg-core.worker.js",
+    //   import.meta.url
+    // ).href,
     corePath: new URL("@ffmpeg/core/dist/ffmpeg-core.js", import.meta.url).href,
   });
   await ffmpeg.load();

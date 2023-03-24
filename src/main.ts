@@ -7,9 +7,5 @@ import { isDev, log } from "./utils";
 if (!isDev) {
   log();
 }
-// if (!crossOriginIsolated) {
-//   //@ts-ignore
-//   window.SharedArrayBuffer = ArrayBuffer;
-// }
 
 createApp(App).use(router).mount("#app");
