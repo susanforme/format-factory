@@ -12,7 +12,12 @@ export async function initFfmpeg() {
     //   "@ffmpeg/core/dist/ffmpeg-core.worker.js",
     //   import.meta.url
     // ).href,
-    // corePath: new URL("@ffmpeg/core/dist/ffmpeg-core.js", import.meta.url).href,
+    ...(isDev
+      ? {
+          corePath: new URL("@ffmpeg/core/dist/ffmpeg-core.js", import.meta.url)
+            .href,
+        }
+      : {}),
   });
   await ffmpeg.load();
   return ffmpeg;
