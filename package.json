@@ -18,6 +18,7 @@
     "vue": "^3.2.45"
   },
   "devDependencies": {
+    "@types/node": "^18.15.6",
     "@types/ua-parser-js": "^0.7.36",
     "@vitejs/plugin-vue": "^4.1.0",
     "less": "^4.1.3",

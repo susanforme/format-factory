@@ -1,7 +1,7 @@
 /*
  @Author: zhicheng ran
  @Date: 2023-03-23 14:21:14
- * @LastEditTime: 2023-03-23 16:20:41
+ * @LastEditTime: 2023-03-24 14:30:31
  * @FilePath: \format-factory\src\utils\index.ts
  @Description:
  */
@@ -17,6 +17,7 @@ export async function initFfmpeg() {
       console.log(p);
     }, //回调 展示进度
   });
+  await ffmpeg.load();
   return ffmpeg;
 }
 
@@ -51,3 +52,13 @@ export function log() {
 }
 
 export const isDev = import.meta.env.DEV;
+
+export function fileToUnit8Array(file: File): Promise<Uint8Array> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      resolve(new Uint8Array(reader.result as ArrayBuffer));
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}
