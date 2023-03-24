@@ -32,4 +32,7 @@ export default defineConfig({
       dts: "src/components.d.ts",
     }),
   ],
+  build: {
+    target: "chrome94",
+  },
 });
