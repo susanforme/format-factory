@@ -1,17 +1,18 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-03-24 14:30:07
+ * @LastEditTime: 2023-03-24 15:48:15
  * @FilePath: \format-factory\src\views\Video.vue
  * @Description: 
 -->
 <script lang="ts" setup>
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { fileToUnit8Array, initFfmpeg } from "../utils";
 import type { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fileList } from "@/store";
 
 let ffmpeg: FFmpeg | null = null;
+let lastFileName = "";
 const config = reactive({
   format: "mp4",
   name: "output",
@@ -57,12 +58,22 @@ async function initEncoder() {
   loading.value = false;
 }
 
+watch(file, async () => {
+  if (file.value) {
+    if (lastFileName) {
+      ffmpeg?.FS("unlink", lastFileName);
+    }
+    await getInfo();
+  }
+});
+
 async function getInfo() {
   loading.value = true;
   loading.text = "获取视频信息中...";
   const origin = file.value;
   const unit8 = await fileToUnit8Array(origin.raw!);
   ffmpeg?.FS("writeFile", origin.name, unit8);
+  lastFileName = origin.name;
   await ffmpeg?.run("-i", origin.name);
   loading.value = false;
 }

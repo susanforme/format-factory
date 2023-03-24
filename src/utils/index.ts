@@ -1,11 +1,3 @@
-/*
- @Author: zhicheng ran
- @Date: 2023-03-23 14:21:14
- * @LastEditTime: 2023-03-24 14:30:31
- * @FilePath: \format-factory\src\utils\index.ts
- @Description:
- */
-
 /**
  @description 初始化ffmpeg
  */
@@ -16,6 +8,11 @@ export async function initFfmpeg() {
     progress: (p) => {
       console.log(p);
     }, //回调 展示进度
+    workerPath: new URL(
+      "@ffmpeg/core/dist/ffmpeg-core.worker.js",
+      import.meta.url
+    ).href,
+    corePath: new URL("@ffmpeg/core/dist/ffmpeg-core.js", import.meta.url).href,
   });
   await ffmpeg.load();
   return ffmpeg;

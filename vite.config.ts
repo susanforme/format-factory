@@ -15,6 +15,12 @@ export default defineConfig({
   // server: {
   //   https: true,
   // },
+  server: {
+    headers: {
+      "Cross-Origin-Embedder-Policy": "require-corp",
+      "Cross-Origin-Opener-Policy": "same-origin",
+    },
+  },
   plugins: [
     vue(),
     AutoImport({
