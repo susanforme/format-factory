@@ -65,3 +65,19 @@ export function fileToUnit8Array(file: File): Promise<Uint8Array> {
     reader.readAsArrayBuffer(file);
   });
 }
+
+/**
+ * @description 显示文件大小,大于1000自动进位
+ */
+export function formatFileSize(size: number) {
+  const unit = ["B", "KB", "MB", "GB"];
+  let index = 0;
+  while (size >= 1000) {
+    size /= 1000;
+    index++;
+  }
+  return `${size.toFixed(2)}${unit[index]}`;
+}
+
+// 将ffmpeg输出信息转换为对象
+export function parseFfmpegOutput(output: string) {}
