@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-03-27 16:06:14
+ * @LastEditTime: 2023-03-27 16:20:41
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
@@ -56,6 +56,9 @@ async function getInfo() {
   const unit8 = await fileToUnit8Array(origin.raw!);
   ffmpeg?.FS("writeFile", origin.name, unit8);
   lastFileName = origin.name;
+  ffmpeg?.setLogger((...args) => {
+    console.log(...args);
+  });
   await ffmpeg?.run("-i", origin.name);
   loading.value = false;
 }
@@ -110,6 +113,7 @@ function handleTranscoding(config: TranscodingConfigType) {
         <el-tab-pane name="Config" label="提取字幕"></el-tab-pane>
         <!-- TODO:音频提取可直接转到Audio -->
         <el-tab-pane name="Role" label="提取音频"></el-tab-pane>
+        <el-tab-pane name="waterMark" label="水印"></el-tab-pane>
       </el-tabs>
     </div>
   </div>

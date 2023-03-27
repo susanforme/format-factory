@@ -80,4 +80,4 @@ export function formatFileSize(size: number) {
 }
 
 // 将ffmpeg输出信息转换为对象
-export function parseFfmpegOutput(output: string) {}
+export function parseFfmpegOutput(output: string[]) {}
