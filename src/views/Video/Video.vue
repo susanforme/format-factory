@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-03-27 16:20:41
+ * @LastEditTime: 2023-03-27 16:23:24
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
@@ -48,7 +48,8 @@ watch(file, async () => {
     await getInfo();
   }
 });
-
+// https://blog.csdn.net/u011686167/article/details/120879467
+// https://blog.csdn.net/fuhanghang/article/details/123565920
 async function getInfo() {
   loading.value = true;
   loading.text = "获取视频信息中...";
