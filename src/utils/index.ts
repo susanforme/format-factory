@@ -11,7 +11,8 @@ export async function initFfmpeg() {
       console.log(p);
     }, //回调 展示进度
     workerPath: new URL("../lib/ffmpeg-core.worker.js", import.meta.url).href,
-    corePath: new URL("@ffmpeg/core/dist/ffmpeg-core.js", import.meta.url).href,
+    corePath: new URL("../lib/ffmpeg-core.js", import.meta.url).href,
+    wasmPath: new URL("../lib/ffmpeg-core.wasm", import.meta.url).href,
     //TODO:  低版本报错 低版本手动构建 https://github.com/ffmpegwasm/ffmpeg.wasm/issues/137#issuecomment-1014956114
     // ...(isDev
     //   ? {
