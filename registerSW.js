@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/format-factory/sw.js', { scope: '/format-factory/' })})}
