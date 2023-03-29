@@ -1,28 +1,34 @@
 import { MAGIC_STRING } from "@/constants";
 
+let ffmpeg: any = null;
 /**
  @description 初始化ffmpeg
  */
 export async function initFfmpeg() {
-  const { createFFmpeg } = await import("@ffmpeg/ffmpeg");
-  const ffmpeg = createFFmpeg({
-    log: true,
-    progress: (p) => {
-      console.log(p);
-    }, //回调 展示进度
-    workerPath: new URL("../lib/ffmpeg-core.worker.js", import.meta.url).href,
-    corePath: new URL("../lib/ffmpeg-core.js", import.meta.url).href,
-    wasmPath: new URL("../lib/ffmpeg-core.wasm", import.meta.url).href,
-    //TODO:  低版本报错 低版本手动构建 https://github.com/ffmpegwasm/ffmpeg.wasm/issues/137#issuecomment-1014956114
-    // ...(isDev
-    //   ? {
-    //       corePath: new URL("@ffmpeg/core/dist/ffmpeg-core.js", import.meta.url)
-    //         .href,
-    //     }
-    //   : {}),
-  });
-  await ffmpeg.load();
-  return ffmpeg;
+  if (!ffmpeg) {
+    const { createFFmpeg } = await import("@ffmpeg/ffmpeg");
+    const ffmpegInstance = createFFmpeg({
+      log: true,
+      progress: (p) => {
+        console.log(p);
+      }, //回调 展示进度
+      workerPath: new URL("../lib/ffmpeg-core.worker.js", import.meta.url).href,
+      corePath: new URL("../lib/ffmpeg-core.js", import.meta.url).href,
+      wasmPath: new URL("../lib/ffmpeg-core.wasm", import.meta.url).href,
+      //TODO:  低版本报错 低版本手动构建 https://github.com/ffmpegwasm/ffmpeg.wasm/issues/137#issuecomment-1014956114
+      // ...(isDev
+      //   ? {
+      //       corePath: new URL("@ffmpeg/core/dist/ffmpeg-core.js", import.meta.url)
+      //         .href,
+      //     }
+      //   : {}),
+    });
+    await ffmpegInstance.load();
+    ffmpeg = ffmpegInstance;
+    return ffmpegInstance;
+  } else {
+    return ffmpeg;
+  }
 }
 
 export function log() {
