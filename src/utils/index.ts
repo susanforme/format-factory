@@ -14,13 +14,14 @@ export async function initFfmpeg() {
       "@ffmpeg/core/dist/ffmpeg-core.worker.js",
       import.meta.url
     ).href,
+    corePath: new URL("@ffmpeg/core/dist/ffmpeg-core.js", import.meta.url).href,
     //TODO:  低版本报错 低版本手动构建 https://github.com/ffmpegwasm/ffmpeg.wasm/issues/137#issuecomment-1014956114
-    ...(isDev
-      ? {
-          corePath: new URL("@ffmpeg/core/dist/ffmpeg-core.js", import.meta.url)
-            .href,
-        }
-      : {}),
+    // ...(isDev
+    //   ? {
+    //       corePath: new URL("@ffmpeg/core/dist/ffmpeg-core.js", import.meta.url)
+    //         .href,
+    //     }
+    //   : {}),
   });
   await ffmpeg.load();
   return ffmpeg;
