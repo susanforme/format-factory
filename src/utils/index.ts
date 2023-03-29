@@ -10,10 +10,10 @@ export async function initFfmpeg() {
     progress: (p) => {
       console.log(p);
     }, //回调 展示进度
-    // workerPath: new URL(
-    //   "@ffmpeg/core/dist/ffmpeg-core.worker.js",
-    //   import.meta.url
-    // ).href,
+    workerPath: new URL(
+      "@ffmpeg/core/dist/ffmpeg-core.worker.js",
+      import.meta.url
+    ).href,
     //TODO:  低版本报错 低版本手动构建 https://github.com/ffmpegwasm/ffmpeg.wasm/issues/137#issuecomment-1014956114
     ...(isDev
       ? {
