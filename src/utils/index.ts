@@ -1,3 +1,5 @@
+import { MAGIC_STRING } from "@/constants";
+
 /**
  @description 初始化ffmpeg
  */
@@ -80,4 +82,84 @@ export function formatFileSize(size: number) {
 }
 
 // 将ffmpeg输出信息转换为对象
-export function parseFfmpegOutput(output: string[]) {}
+export function parseFfmpegOutput(output: string[]) {
+  const MetaDatas: Record<string, any>[] = [];
+  let dataIndex = 0;
+  let reading = false;
+  // 处理metadata
+  for (let index = 0; index < output.length; index++) {
+    const element = output[index];
+    if (element.includes("Metadata:")) {
+      // 开始读取
+      if (reading) {
+        dataIndex++;
+      } else {
+        reading = true;
+      }
+    } else {
+      const reg = /Stream #\d+:\d+\(\w*\):/;
+      if (reading) {
+        if (reg.test(element)) {
+          const i = dataIndex + 1;
+          const v = element
+            .replace(reg, "")
+            .trim()
+            .replace(":", MAGIC_STRING)
+            .split(MAGIC_STRING)
+            .map((v) => v.trim().toLocaleLowerCase());
+          if (!MetaDatas[i]) {
+            MetaDatas[i] = {};
+          }
+          MetaDatas[i].stream = v[1].split(",").map((v) => v.trim());
+        } else if (element.includes(":")) {
+          if (element.includes("Duration")) {
+            const res = flattenObjectArray(
+              element.split(",").map((v) => {
+                const entries = v
+                  .trim()
+                  .toLocaleLowerCase()
+                  .replace(":", MAGIC_STRING)
+                  .split(MAGIC_STRING)
+                  .map((v) => v.trim());
+                return {
+                  [toHump(entries[0])]: entries[1],
+                };
+              })
+            );
+            if (!MetaDatas[dataIndex]) {
+              MetaDatas[dataIndex] = {};
+            }
+            MetaDatas[dataIndex].duration = res;
+          } else {
+            const entries = element
+              .split(":")
+              .map((v) => v.trim().toLocaleLowerCase());
+            if (!MetaDatas[dataIndex]) {
+              MetaDatas[dataIndex] = {};
+            }
+            MetaDatas[dataIndex][toHump(entries[0])] = entries[1];
+          }
+          // 如果是stream应该push 进下一个数组
+        }
+      }
+    }
+  }
+  return MetaDatas;
+}
+
+// 下划线转驼峰
+export function toHump(name: string) {
+  return name.replace(/\_(\w)/g, function (all, letter) {
+    return letter.toUpperCase();
+  });
+}
+
+// 展平对象数组
+export function flattenObjectArray(arr: Record<string, any>[]) {
+  return arr.reduce((prev, curr) => {
+    return {
+      ...prev,
+      ...curr,
+    };
+  }, {});
+}

@@ -1,14 +1,19 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-03-27 16:23:24
+ * @LastEditTime: 2023-03-29 14:59:01
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
 <script lang="ts" setup>
 import { computed, reactive, ref, watch } from "vue";
 
-import { fileToUnit8Array, initFfmpeg, formatFileSize } from "@/utils";
+import {
+  fileToUnit8Array,
+  initFfmpeg,
+  formatFileSize,
+  parseFfmpegOutput,
+} from "@/utils";
 import type { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fileList } from "@/store";
 import Transcoding, {
@@ -34,9 +39,9 @@ async function initEncoder() {
   loading.value = true;
   loading.text = "初始化编解码器中...";
   ffmpeg = await initFfmpeg();
-  ffmpeg.setLogger((...args) => {
-    console.log(...args);
-  });
+  // ffmpeg.setLogger(({ type, message }) => {
+  //   // console.log(...args);
+  // });
   loading.value = false;
 }
 
@@ -55,12 +60,17 @@ async function getInfo() {
   loading.text = "获取视频信息中...";
   const origin = file.value;
   const unit8 = await fileToUnit8Array(origin.raw!);
+  const outputs: string[] = [];
+
   ffmpeg?.FS("writeFile", origin.name, unit8);
   lastFileName = origin.name;
-  ffmpeg?.setLogger((...args) => {
-    console.log(...args);
+  ffmpeg?.setLogger(({ type, message }) => {
+    if (type !== "ffout") {
+      outputs.push(message);
+    }
   });
   await ffmpeg?.run("-i", origin.name);
+  console.log(parseFfmpegOutput(outputs));
   loading.value = false;
 }
 async function init() {
@@ -122,5 +132,8 @@ function handleTranscoding(config: TranscodingConfigType) {
 
 <style scoped lang="less">
 .video {
+}
+.row {
+  display: flex;
 }
 </style>
