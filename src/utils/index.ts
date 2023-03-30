@@ -1,4 +1,5 @@
 import { MAGIC_STRING } from "@/constants";
+import { version } from "../../package.json";
 
 let ffmpeg: any = null;
 /**
@@ -168,3 +169,5 @@ export function flattenObjectArray(arr: Record<string, any>[]) {
     };
   }, {});
 }
+
+export const VERSION = version;

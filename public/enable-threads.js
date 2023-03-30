@@ -1,17 +1,16 @@
 // NOTE: This file creates a service worker that cross-origin-isolates the page (read more here: https://web.dev/coop-coep/) which allows us to use wasm threads.
 // Normally you would set the COOP and COEP headers on the server to do this, but Github Pages doesn't allow this, so this is a hack to do that.
 
-/* Edited version of: coi-serviceworker v0.1.6 - Guido Zuidhof, licensed under MIT */
+/* Edited version of: coi-serviceworker v0.1.7 - rzc, licensed under MIT */
 // From here: https://github.com/gzuidhof/coi-serviceworker
+
 if (typeof window === "undefined") {
   self.addEventListener("install", () => self.skipWaiting());
   self.addEventListener("activate", (e) => e.waitUntil(self.clients.claim()));
-
   async function handleFetch(request) {
     if (request.cache === "only-if-cached" && request.mode !== "same-origin") {
       return;
     }
-
     if (request.mode === "no-cors") {
       // We need to set `credentials` to "omit" for no-cors requests, per this comment: https://bugs.chromium.org/p/chromium/issues/detail?id=1309901#c7
       request = new Request(request.url, {
@@ -48,7 +47,8 @@ if (typeof window === "undefined") {
   }
 
   self.addEventListener("fetch", function (e) {
-    e.respondWith(handleFetch(e.request)); // respondWith must be executed synchonously (but can be passed a Promise)
+    // respondWith must be executed synchronously (but can be passed a Promise)
+    e.respondWith(handleFetch(e.request));
   });
 } else {
   (async function () {
