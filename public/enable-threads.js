@@ -30,6 +30,9 @@ async function wait() {
  * @param {Cache} cache
  */
 async function handleFetch(request, cache) {
+  if (request.url.includes("chrome-extension")) {
+    return;
+  }
   if (request.cache === "only-if-cached" && request.mode !== "same-origin") {
     return;
   }
