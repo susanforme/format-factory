@@ -107,7 +107,7 @@ if (typeof window === "undefined") {
 } else {
   (async function () {
     //!!测试注销
-    // if (window.crossOriginIsolated !== false) return;
+    if (window.crossOriginIsolated !== false) return;
     let registration = await navigator.serviceWorker
       .register(window.document.currentScript.src)
       .catch((e) =>
