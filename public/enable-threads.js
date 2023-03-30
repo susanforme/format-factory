@@ -25,7 +25,11 @@ async function wait() {
   return;
 }
 
-async function handleFetch(request) {
+/**
+ *  @param {Request} request
+ * @param {Cache} cache
+ */
+async function handleFetch(request, cache) {
   if (request.cache === "only-if-cached" && request.mode !== "same-origin") {
     return;
   }
@@ -50,8 +54,14 @@ async function handleFetch(request) {
   let r;
   // 获取缓存
   // 强缓存
-  const strongCacheReg = [/.*\.wasm.*/i];
-  const cache = await caches.open(CACHE_VERSION);
+  const strongCacheReg = [
+    // https://regex101.com/
+    /.*\.wasm.*/i,
+    /.*(png|svga|ico).*/,
+    // element包
+    /element-plus-\w*\.js/,
+    /content\.css/,
+  ];
   // 匹配强缓存结果
   const matchStrongCache = strongCacheReg.some((reg) => reg.test(request.url));
   // 匹配强缓存成功
@@ -84,19 +94,20 @@ async function handleFetch(request) {
   });
 }
 if (typeof window === "undefined") {
-  // @type {ServiceWorkerGlobalScope}
-  sw.addEventListener("install", () => sw.skipWaiting());
-  sw.addEventListener("activate", (e) => e.waitUntil(wait()));
-
-  sw.addEventListener("fetch", function (e) {
-    // respondWith must be executed synchronously (but can be passed a Promise)
-    e.respondWith(handleFetch(e.request));
-  });
+  (async () => {
+    // @type {ServiceWorkerGlobalScope}
+    sw.addEventListener("install", () => sw.skipWaiting());
+    sw.addEventListener("activate", (e) => e.waitUntil(wait()));
+    const cache = await caches.open(CACHE_VERSION);
+    sw.addEventListener("fetch", function (e) {
+      // respondWith must be executed synchronously (but can be passed a Promise)
+      e.respondWith(handleFetch(e.request, cache));
+    });
+  })();
 } else {
   (async function () {
     //!!测试注销
     // if (window.crossOriginIsolated !== false) return;
-
     let registration = await navigator.serviceWorker
       .register(window.document.currentScript.src)
       .catch((e) =>
