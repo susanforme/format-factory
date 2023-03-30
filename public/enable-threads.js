@@ -27,9 +27,8 @@ async function wait() {
 
 /**
  *  @param {Request} request
- * @param {Cache} cache
  */
-async function handleFetch(request, cache) {
+async function handleFetch(request) {
   if (request.url.includes("chrome-extension")) {
     return;
   }
@@ -76,6 +75,7 @@ async function handleFetch(request, cache) {
     if (!r) {
       r = await fetch(request).catch((e) => console.error(e));
       // 更新缓存
+      const cache = await caches.open(CACHE_VERSION);
       cache.put(request, r.clone());
     } else {
       console.log("🚀🚀🚀🚀🚀", "缓存命中", request.url);
@@ -97,16 +97,13 @@ async function handleFetch(request, cache) {
   });
 }
 if (typeof window === "undefined") {
-  (async () => {
-    // @type {ServiceWorkerGlobalScope}
-    sw.addEventListener("install", () => sw.skipWaiting());
-    sw.addEventListener("activate", (e) => e.waitUntil(wait()));
-    const cache = await caches.open(CACHE_VERSION);
-    sw.addEventListener("fetch", function (e) {
-      // respondWith must be executed synchronously (but can be passed a Promise)
-      e.respondWith(handleFetch(e.request, cache));
-    });
-  })();
+  // @type {ServiceWorkerGlobalScope}
+  sw.addEventListener("install", () => sw.skipWaiting());
+  sw.addEventListener("activate", (e) => e.waitUntil(wait()));
+  sw.addEventListener("fetch", function (e) {
+    // respondWith must be executed synchronously (but can be passed a Promise)
+    e.respondWith(handleFetch(e.request));
+  });
 } else {
   (async function () {
     //!!测试注销
