@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-03-29 14:59:01
+ * @LastEditTime: 2023-03-31 16:27:44
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
@@ -19,6 +19,7 @@ import { fileList } from "@/store";
 import Transcoding, {
   TranscodingConfigType,
 } from "./components/Transcoding.vue";
+import { ElNotification } from "element-plus";
 
 let ffmpeg: FFmpeg | null = null;
 let lastFileName = "";
@@ -27,7 +28,16 @@ const config = reactive({
 });
 
 const activeName = ref("transcoding");
-const info = ref<Record<string, any>>({});
+const info = ref({
+  audio: {},
+  video: {},
+  basic: {
+    duration: 0,
+    bitrate: 0,
+    encoder: "",
+    majorBrand: "",
+  },
+});
 
 const loading = reactive({
   value: false,
@@ -61,7 +71,6 @@ async function getInfo() {
   const origin = file.value;
   const unit8 = await fileToUnit8Array(origin.raw!);
   const outputs: string[] = [];
-
   ffmpeg?.FS("writeFile", origin.name, unit8);
   lastFileName = origin.name;
   ffmpeg?.setLogger(({ type, message }) => {
@@ -70,7 +79,27 @@ async function getInfo() {
     }
   });
   await ffmpeg?.run("-i", origin.name);
-  console.log(parseFfmpegOutput(outputs));
+  const outputsInfo = parseFfmpegOutput(outputs);
+  console.log(outputsInfo);
+  if (outputsInfo.length === 0) {
+    ElNotification.error({
+      title: "错误",
+      message: "获取视频信息失败",
+    });
+  } else {
+    ElNotification.success({
+      title: "成功",
+      message: "获取视频信息成功",
+    });
+    const { duration: d, encoder, majorBrand } = outputsInfo[0] ?? {};
+    const { duration, bitrate } = d ?? {};
+    info.value.basic = {
+      duration,
+      bitrate,
+      encoder,
+      majorBrand,
+    };
+  }
   loading.value = false;
 }
 async function init() {
@@ -98,7 +127,7 @@ function handleTranscoding(config: TranscodingConfigType) {
     :element-loading-text="loading.text"
   >
     <div class="info">
-      <h2>视频信息:</h2>
+      <h2>基本信息:</h2>
       <div class="row">
         <div class="label">文件名:</div>
         <div class="value">{{ file.name }}</div>
@@ -106,6 +135,34 @@ function handleTranscoding(config: TranscodingConfigType) {
       <div class="row">
         <div class="label">文件大小:</div>
         <div class="value">{{ formatFileSize(file.size!) }}</div>
+      </div>
+      <div class="row">
+        <div class="label">视频时长:</div>
+        <div class="value">{{ info?.basic?.duration }}</div>
+      </div>
+      <div class="row">
+        <div class="label">解码器:</div>
+        <div class="value">{{ info?.basic?.encoder }}</div>
+      </div>
+      <div class="row">
+        <div class="label">
+          <el-tooltip content="详见 http://ftyps.com/"> ftyp: </el-tooltip>
+        </div>
+        <div class="value">{{ info?.basic?.majorBrand }}</div>
+      </div>
+    </div>
+    <div class="info">
+      <h2>视频流信息:</h2>
+      <div class="row">
+        <div class="label">文件名:</div>
+        <div class="value">{{ file.name }}</div>
+      </div>
+    </div>
+    <div class="info">
+      <h2>音频流信息:</h2>
+      <div class="row">
+        <div class="label">文件名:</div>
+        <div class="value">{{ file.name }}</div>
       </div>
     </div>
     <div class="config">
