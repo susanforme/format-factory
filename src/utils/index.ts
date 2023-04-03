@@ -1,9 +1,11 @@
 import { MAGIC_STRING } from "@/constants";
+import type { FFmpeg } from "@ffmpeg/ffmpeg";
 import { version } from "../../package.json";
 
-let ffmpeg: any = null;
+let ffmpeg: FFmpeg | null = null;
 /**
  @description 初始化ffmpeg
+ * https://github.com/ffmpegwasm/ffmpeg.wasm/issues/121#issuecomment-1111638578
  */
 export async function initFfmpeg() {
   if (!ffmpeg) {
@@ -35,6 +37,17 @@ export async function initFfmpeg() {
   }
 }
 
+/**
+ * @description 销毁ffmpeg
+ */
+export function destoryFfmpeg() {
+  ffmpeg?.exit();
+  ffmpeg = null;
+}
+
+/**
+ * @description 生成初音未来logo
+ */
 export function log() {
   console.log(
     [
@@ -65,8 +78,16 @@ export function log() {
   );
 }
 
+/**
+ * @description 是否dev
+ */
 export const isDev = import.meta.env.DEV;
 
+/**
+ * @description file转unit8Array
+ * @param file
+ * @returns
+ */
 export function fileToUnit8Array(file: File): Promise<Uint8Array> {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -173,8 +194,17 @@ export function flattenObjectArray(arr: Record<string, any>[]) {
   }, {});
 }
 
+/**
+ * @description 获取版本号
+ */
 export const VERSION = version;
 
+/**
+ * @description 下载unit8Array
+ * @param arr
+ * @param type
+ * @param filename
+ */
 export function downloadUnit8Array(
   arr: Uint8Array,
   type: string,
@@ -194,3 +224,19 @@ export function downloadBlob(blob: Blob, filename: string) {
   a.click();
   URL.revokeObjectURL(a.href);
 }
+
+/**
+ * @description 初始化mediainfo
+ * @returns
+ */
+export async function initMediaInfo() {
+  const { default: MediaInfo } = await import("mediainfo.js");
+  const mediaInfo = await MediaInfo({
+    format: "object",
+  });
+  return mediaInfo;
+}
+
+// export function destoryMediaInfo(mediaInfo: any) {
+//   mediaInfo.close();
+// }
