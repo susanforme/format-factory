@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-03-31 16:27:44
+ * @LastEditTime: 2023-04-03 15:27:37
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
@@ -13,6 +13,7 @@ import {
   initFfmpeg,
   formatFileSize,
   parseFfmpegOutput,
+  downloadUnit8Array,
 } from "@/utils";
 import type { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fileList } from "@/store";
@@ -30,7 +31,10 @@ const config = reactive({
 const activeName = ref("transcoding");
 const info = ref({
   audio: {},
-  video: {},
+  video: {
+    code: "",
+    format: "",
+  },
   basic: {
     duration: 0,
     bitrate: 0,
@@ -78,7 +82,35 @@ async function getInfo() {
       outputs.push(message);
     }
   });
-  await ffmpeg?.run("-i", origin.name);
+  ffmpeg?.setProgress((t) => {
+    console.log(
+      "%c [ t ]-82",
+      "font-size:13px; background:pink; color:#bf2c9f;",
+      t
+    );
+  });
+  await ffmpeg?.run(
+    "-i",
+    origin.name,
+    "-f",
+    "ffmetadata",
+    "-c",
+    "copy",
+    "-map_metadata",
+    "0",
+    "-map_metadata:s:v",
+    "0:s:v",
+    // "-map_metadata:s:a 0:s:a",
+    "FFMETADATAFILE"
+  );
+  const data = ffmpeg?.FS("readFile", "FFMETADATAFILE");
+  downloadUnit8Array(
+    data!,
+    `
+  text/plain;charset=utf-8
+  `,
+    "t.txt"
+  );
   const outputsInfo = parseFfmpegOutput(outputs);
   console.log(outputsInfo);
   if (outputsInfo.length === 0) {
@@ -99,6 +131,19 @@ async function getInfo() {
       encoder,
       majorBrand,
     };
+    const videoInfo = outputsInfo.find(
+      (v) => v?.handlerName === "videohandler"
+    );
+    if (videoInfo) {
+    } else {
+      ElNotification.error({
+        title: "错误",
+        message: "获取视频流信息失败",
+      });
+    }
+    const audioInfo = outputsInfo.find(
+      (v) => v?.handlerName === "soundhandler"
+    );
   }
   loading.value = false;
 }

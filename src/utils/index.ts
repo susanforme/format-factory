@@ -171,3 +171,23 @@ export function flattenObjectArray(arr: Record<string, any>[]) {
 }
 
 export const VERSION = version;
+
+export function downloadUnit8Array(
+  arr: Uint8Array,
+  type: string,
+  filename: string
+) {
+  const blob = new Blob([arr], { type });
+  downloadBlob(blob, filename);
+}
+
+/**
+ * @description 下载blob
+ */
+export function downloadBlob(blob: Blob, filename: string) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}

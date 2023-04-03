@@ -1,7 +1,7 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-03-10 15:12:33
- * @LastEditTime: 2023-03-27 15:32:46
+ * @LastEditTime: 2023-04-03 15:11:27
  * @FilePath: \format-factory\src\router\index.ts
  * @Description:
  */
@@ -40,3 +40,5 @@ export const router = createRouter({
     },
   ],
 });
+
+// TODO: 添加路由守卫,切换路由销毁ffmpeg或加载
