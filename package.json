@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vue-tsc && vite build",
+    "format": "prettier  --config ./.prettierrc.cjs --cache --write .",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -27,6 +28,8 @@
     "typescript": "^4.9.4",
     "unplugin-auto-import": "^0.15.1",
     "unplugin-vue-components": "^0.24.1",
+    "prettier-plugin-organize-imports": "^3.2.2",
+    "prettier-plugin-packagejson": "^2",
     "vite": "^4.0.4",
     "vue-router": "^4.1.6",
     "vue-tsc": "^1.0.22"

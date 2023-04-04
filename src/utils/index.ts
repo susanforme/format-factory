@@ -1,5 +1,6 @@
 import { MAGIC_STRING } from "@/constants";
 import type { FFmpeg } from "@ffmpeg/ffmpeg";
+import { MediaInfo, ResultObject } from "mediainfo.js/dist/types";
 import { version } from "../../package.json";
 
 let ffmpeg: FFmpeg | null = null;
@@ -111,72 +112,6 @@ export function formatFileSize(size: number) {
   return `${size.toFixed(2)}${unit[index]}`;
 }
 
-// 将ffmpeg输出信息转换为对象
-export function parseFfmpegOutput(output: string[]) {
-  const MetaDatas: Record<string, any>[] = [];
-  let dataIndex = 0;
-  let reading = false;
-  // 处理metadata
-  for (let index = 0; index < output.length; index++) {
-    const element = output[index];
-    if (element.includes("Metadata:")) {
-      // 开始读取
-      if (reading) {
-        dataIndex++;
-      } else {
-        reading = true;
-      }
-    } else {
-      const reg = /Stream #\d+:\d+\(\w*\):/;
-      if (reading) {
-        if (reg.test(element)) {
-          const i = dataIndex + 1;
-          const v = element
-            .replace(reg, "")
-            .trim()
-            .replace(":", MAGIC_STRING)
-            .split(MAGIC_STRING)
-            .map((v) => v.trim().toLocaleLowerCase());
-          if (!MetaDatas[i]) {
-            MetaDatas[i] = {};
-          }
-          MetaDatas[i].stream = v[1].split(",").map((v) => v.trim());
-        } else if (element.includes(":")) {
-          if (element.includes("Duration")) {
-            const res = flattenObjectArray(
-              element.split(",").map((v) => {
-                const entries = v
-                  .trim()
-                  .toLocaleLowerCase()
-                  .replace(":", MAGIC_STRING)
-                  .split(MAGIC_STRING)
-                  .map((v) => v.trim());
-                return {
-                  [toHump(entries[0])]: entries[1],
-                };
-              })
-            );
-            if (!MetaDatas[dataIndex]) {
-              MetaDatas[dataIndex] = {};
-            }
-            MetaDatas[dataIndex].duration = res;
-          } else {
-            const entries = element
-              .split(":")
-              .map((v) => v.trim().toLocaleLowerCase());
-            if (!MetaDatas[dataIndex]) {
-              MetaDatas[dataIndex] = {};
-            }
-            MetaDatas[dataIndex][toHump(entries[0])] = entries[1];
-          }
-          // 如果是stream应该push 进下一个数组
-        }
-      }
-    }
-  }
-  return MetaDatas;
-}
-
 // 下划线转驼峰
 export function toHump(name: string) {
   return name.replace(/\_(\w)/g, function (all, letter) {
@@ -226,17 +161,34 @@ export function downloadBlob(blob: Blob, filename: string) {
 }
 
 /**
- * @description 初始化mediainfo
+ * @description 获取视频信息
  * @returns
  */
-export async function initMediaInfo() {
+export async function getMediaInfo(file: File) {
   const { default: MediaInfo } = await import("mediainfo.js");
   const mediaInfo = await MediaInfo({
     format: "object",
+    locateFile: (path, prefix) => {
+      if (path === "MediaInfoModule.wasm") {
+        return new URL("../lib/mediaInfo/MediaInfoModule.wasm", import.meta.url)
+          .href;
+      }
+      return prefix + path;
+    },
   });
-  return mediaInfo;
+  const result = (await mediaInfo.analyzeData(
+    () => file.size,
+    (chunkSize, offset) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          if (event.target?.error) {
+            reject(event.target.error);
+          }
+          resolve(new Uint8Array(event.target?.result as ArrayBuffer));
+        };
+        reader.readAsArrayBuffer(file.slice(offset, offset + chunkSize));
+      })
+  )) as ResultObject;
+  return result;
 }
-
-// export function destoryMediaInfo(mediaInfo: any) {
-//   mediaInfo.close();
-// }
