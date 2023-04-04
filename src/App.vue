@@ -46,19 +46,7 @@ const ua = new UAParser(
 
 <template>
   <div id="content">
-    <header>
-      <div class="header">
-        <div
-          v-for="route in routes"
-          :key="route.path"
-          class="link"
-        >
-          <router-link :to="route.path">
-            {{ route.meta.title }}
-          </router-link>
-        </div>
-      </div>
-    </header>
+    <Header></Header>
     <main>
       <div class="main">
         <div class="file">
