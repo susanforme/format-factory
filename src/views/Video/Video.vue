@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-04-04 15:37:39
+ * @LastEditTime: 2023-04-04 16:00:34
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
@@ -26,10 +26,24 @@ const info = ref({
     format: '',
   },
   basic: {
-    duration: 0,
-    bitrate: 0,
-    encoder: '',
-    majorBrand: '',
+    VideoCount: '',
+    AudioCount: '',
+    Format: '',
+    Format_Profile: '',
+    CodecID: '',
+    CodecID_Compatible: '',
+    FileSize: '',
+    Duration: '',
+    OverallBitRate_Mode: '',
+    OverallBitRate: '',
+    FrameRate: '',
+    FrameCount: '',
+    StreamSize: '',
+    HeaderSize: '',
+    DataSize: '',
+    FooterSize: '',
+    IsStreamable: '',
+    Encoded_Application: '',
   },
 });
 
@@ -65,6 +79,11 @@ async function getInfo() {
   loading.value = true;
   loading.text = '获取视频信息中...';
   const result = await getMediaInfo(file.value.raw!);
+  console.log(
+    '%c [ result ]-68',
+    'font-size:13px; background:pink; color:#bf2c9f;',
+    result,
+  );
   result.media.track.forEach((track: any) => {
     const type = track['@type'];
     if (type === 'Video') {
@@ -78,12 +97,7 @@ async function getInfo() {
         format: track.Format,
       };
     } else if (type === 'General') {
-      info.value.basic = {
-        duration: track.Duration,
-        bitrate: track.OverallBitRate,
-        encoder: track.Encoded_Application,
-        majorBrand: track.CodecID,
-      };
+      info.value.basic = track;
     }
   });
 
@@ -122,13 +136,46 @@ function handleTranscoding(config: TranscodingConfigType) {
         </div>
       </div>
       <div class="row">
+        <div class="label">格式:</div>
+        <div class="value">
+          {{ info?.basic?.Format }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">格式配置文件:</div>
+        <div class="value">
+          {{ info?.basic?.Format_Profile }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">总比特率:</div>
+        <div class="value">
+          {{ info?.basic?.OverallBitRate }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">帧率:</div>
+        <div class="value">
+          {{ info?.basic?.FrameRate }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">帧数:</div>
+        <div class="value">
+          {{ info?.basic?.FrameCount }}
+        </div>
+      </div>
+      <div class="row">
         <div class="label">视频时长:</div>
-        <div class="value">{{ info?.basic?.duration }}</div>
+        <div class="value">{{ info?.basic?.Duration }}</div>
       </div>
       <div class="row">
         <div class="label">解码器:</div>
-        <div class="value">{{ info?.basic?.encoder }}</div>
+        <div class="value">
+          {{ info?.basic?.Encoded_Application }}
+        </div>
       </div>
+
       <div class="row">
         <div class="label">
           <el-tooltip content="详见 http://ftyps.com/">
@@ -136,7 +183,7 @@ function handleTranscoding(config: TranscodingConfigType) {
           </el-tooltip>
         </div>
         <div class="value">
-          {{ info?.basic?.majorBrand }}
+          {{ info?.basic?.CodecID }}
         </div>
       </div>
     </div>
