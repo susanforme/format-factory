@@ -1,0 +1,1 @@
+const o="操作系统",s="浏览器",t="中央处理器",c="系统信息",n="视频",e="音频",f="图片",i="文件名",a="文件大小",_="文件格式",l="帧速率",p="字体",r={os:o,browser:s,cpu:t,sys_info:c,video:n,audio:e,pic:f,file_n:i,file_s:a,file_f:_,frameRate:l,ftyp:p};export{e as audio,s as browser,t as cpu,r as default,_ as file_f,i as file_n,a as file_s,l as frameRate,p as ftyp,o as os,f as pic,c as sys_info,n as video};
