@@ -1,7 +1,7 @@
 /*
  * @Author: [susanforme]
  * @Date: 2023-02-04 11:16:04
- * @LastEditTime: 2023-04-04 16:07:46
+ * @LastEditTime: 2023-04-04 20:43:24
  * @FilePath: \format-factory\scripts\util.ts
  * @Description:
  */
@@ -223,4 +223,20 @@ export function writeLog(logText: string, logName = 'log') {
       },
     );
   });
+}
+
+/**
+ * @description 对象组装
+ * @param keys
+ * @param values
+ */
+export function objectAssembly<T extends any>(
+  keys: string[],
+  values: T[],
+) {
+  const obj: Record<string, T> = {};
+  keys.forEach((key, index) => {
+    obj[key] = values[index];
+  });
+  return obj;
 }

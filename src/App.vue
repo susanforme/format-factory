@@ -13,7 +13,6 @@ import { fileList } from './store';
 
 const upload = ref<UploadInstance>();
 const route = useRoute();
-
 const accept = computed(() => {
   if (route.path === '/video') {
     return 'video/*';

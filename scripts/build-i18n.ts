@@ -3,20 +3,29 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as tencentcloud from 'tencentcloud-sdk-nodejs';
 import type { TextTranslateBatchRequest } from 'tencentcloud-sdk-nodejs/tencentcloud/services/tmt/v20180321/tmt_models';
-import * as emojiDB from '../assets/gitmoji.json';
+import db from '../assets/en.json';
 import {
   LANGUAGE_CODE,
   LANGUAGE_CODE_ENTITY,
 } from '../src/constants';
-import { RequestTimeLimitsQueue } from './util';
+import {
+  objectAssembly,
+  RequestTimeLimitsQueue,
+} from './util';
+
+console.log(
+  '%c [ db ]-7',
+  'font-size:13px; background:pink; color:#bf2c9f;',
+  db,
+);
 
 const credential = dotenv.config().parsed;
+
+const enKeys = Object.keys(db);
 
 if (!credential) {
   throw new Error('.env not found');
 }
-
-const { gitmojis } = emojiDB;
 
 const translateClient =
   new tencentcloud.tmt.v20180321.Client({
@@ -30,8 +39,7 @@ const translateClient =
 translate();
 async function translate() {
   const langPath = '../src/locales/lang';
-  // get the gitmoji.json description
-  const enDesc = gitmojis.map(item => item.description);
+  const enDesc = Object.values(db);
   // write all translate  file
   const requestQueue = Object.keys(
     LANGUAGE_CODE_ENTITY,
@@ -51,8 +59,6 @@ async function translate() {
     requestQueue,
   ).run();
   console.log('translate success');
-
-  //TODO: write package translate file
 }
 /**
  *
@@ -121,15 +127,7 @@ function writeTranslateJsonFile(
   return new Promise<boolean>((resolve, reject) => {
     fs.writeFile(
       `${langPath}/${filename}.json`,
-      JSON.stringify(
-        gitmojis.reduce(
-          (acc: { [x: string]: string }, cur, index) => {
-            acc[cur.name] = texts[index];
-            return acc;
-          },
-          {},
-        ),
-      ),
+      JSON.stringify(objectAssembly(enKeys, texts)),
       err => {
         if (err) {
           console.log(err, 'writeFile error');
