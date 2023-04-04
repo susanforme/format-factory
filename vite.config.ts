@@ -1,16 +1,16 @@
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import AutoImport from "unplugin-auto-import/vite";
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
-import Components from "unplugin-vue-components/vite";
-import { resolve } from "path";
+import vue from '@vitejs/plugin-vue';
+import { resolve } from 'path';
+import AutoImport from 'unplugin-auto-import/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import Components from 'unplugin-vue-components/vite';
+import { defineConfig } from 'vite';
 
 // import basicSsl from '@vitejs/plugin-basic-ssl'
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
-      "@": resolve("src"),
+      '@': resolve('src'),
     },
   },
   // server: {
@@ -18,8 +18,8 @@ export default defineConfig({
   // },
   server: {
     headers: {
-      "Cross-Origin-Embedder-Policy": "require-corp",
-      "Cross-Origin-Opener-Policy": "same-origin",
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+      'Cross-Origin-Opener-Policy': 'same-origin',
     },
   },
   plugins: [
@@ -86,11 +86,11 @@ export default defineConfig({
     vue(),
     AutoImport({
       resolvers: [ElementPlusResolver()],
-      dts: "src/auto-imports.d.ts",
+      dts: 'src/auto-imports.d.ts',
     }),
     Components({
       resolvers: [ElementPlusResolver({})],
-      dts: "src/components.d.ts",
+      dts: 'src/components.d.ts',
     }),
   ],
   build: {
@@ -98,7 +98,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          "element-plus": ["element-plus"],
+          'element-plus': ['element-plus'],
         },
       },
     },

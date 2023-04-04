@@ -5,7 +5,7 @@
  * @FilePath: \format-factory\src\store\index.ts
  * @Description:
  */
-import type { UploadUserFile } from "element-plus";
-import { ref } from "vue";
+import type { UploadUserFile } from 'element-plus';
+import { ref } from 'vue';
 
 export const fileList = ref<UploadUserFile[]>([]);

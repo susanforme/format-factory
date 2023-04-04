@@ -6,4 +6,4 @@
  * @Description:
  */
 
-export const MAGIC_STRING = "!@#$%";
+export const MAGIC_STRING = '!@#$%';

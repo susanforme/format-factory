@@ -5,37 +5,41 @@
  * @FilePath: \format-factory\src\router\index.ts
  * @Description:
  */
-import { createRouter, createWebHashHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHashHistory,
+} from 'vue-router';
 
 export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     {
-      path: "/",
-      redirect: "/video",
+      path: '/',
+      redirect: '/video',
     },
     {
-      name: "video",
-      path: "/video",
-      component: () => import("@/views/Video/Video.vue"),
+      name: 'video',
+      path: '/video',
+      component: () => import('@/views/Video/Video.vue'),
       meta: {
-        title: "视频",
+        title: '视频',
       },
     },
     {
-      name: "picture",
-      path: "/picture",
-      component: () => import("@/views/Picture/Picture.vue"),
+      name: 'picture',
+      path: '/picture',
+      component: () =>
+        import('@/views/Picture/Picture.vue'),
       meta: {
-        title: "图像",
+        title: '图像',
       },
     },
     {
-      name: "audio",
-      path: "/audio",
-      component: () => import("@/views/Audio/Audio.vue"),
+      name: 'audio',
+      path: '/audio',
+      component: () => import('@/views/Audio/Audio.vue'),
       meta: {
-        title: "音频",
+        title: '音频',
       },
     },
   ],

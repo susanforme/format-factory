@@ -1,48 +1,58 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from "vue-router";
-import { UploadFilled } from "@element-plus/icons-vue";
-import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
-import { genFileId } from "element-plus";
-import { computed, ref, watch } from "vue";
-import { fileList } from "./store";
-import UAParser from "ua-parser-js";
+import { UploadFilled } from '@element-plus/icons-vue';
+import type {
+  UploadInstance,
+  UploadProps,
+  UploadRawFile,
+} from 'element-plus';
+import { genFileId } from 'element-plus';
+import UAParser from 'ua-parser-js';
+import { computed, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { fileList } from './store';
 
 const upload = ref<UploadInstance>();
 const route = useRoute();
 
 const accept = computed(() => {
-  if (route.path === "/video") {
-    return "video/*";
-  } else if (route.path === "/picture") {
-    return "audio/*";
+  if (route.path === '/video') {
+    return 'video/*';
+  } else if (route.path === '/picture') {
+    return 'audio/*';
   }
 });
 
 watch(
   () => route.path,
-  (path) => {
+  path => {
     fileList.value = [];
-  }
+  },
 );
 
-const handleExceed: UploadProps["onExceed"] = (files) => {
+const handleExceed: UploadProps['onExceed'] = files => {
   upload.value!.clearFiles();
   const file = files[0] as UploadRawFile;
   file.uid = genFileId();
   upload.value!.handleStart(file);
 };
 const router = useRouter();
-const routes = router.getRoutes().filter((route) => {
+const routes = router.getRoutes().filter(route => {
   return route.redirect === undefined;
 });
-const ua = new UAParser(window.navigator.userAgent).getResult();
+const ua = new UAParser(
+  window.navigator.userAgent,
+).getResult();
 </script>
 
 <template>
   <div id="content">
     <header>
       <div class="header">
-        <div v-for="route in routes" :key="route.path" class="link">
+        <div
+          v-for="route in routes"
+          :key="route.path"
+          class="link"
+        >
           <router-link :to="route.path">
             {{ route.meta.title }}
           </router-link>
@@ -79,7 +89,9 @@ const ua = new UAParser(window.navigator.userAgent).getResult();
             :show-file-list="false"
             :accept="accept"
           >
-            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+            <el-icon class="el-icon--upload"
+              ><upload-filled
+            /></el-icon>
             <div class="el-upload__text">
               将文件拖到此处 或 <em>点击选择</em>
             </div>
