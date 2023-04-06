@@ -1,1 +1,14 @@
-{"os":"操作系统","browser":"浏览器","cpu":"中央处理器","sys_info":"系统信息","video":"视频","audio":"音频","pic":"图片","file_n":"文件名","file_s":"文件大小","file_f":"文件格式","frameRate":"帧速率","ftyp":"字体"}
+{
+  "os": "操作系统",
+  "browser": "浏览器",
+  "cpu": "中央处理器",
+  "sys_info": "系统信息",
+  "video": "视频",
+  "audio": "音频",
+  "pic": "图片",
+  "file_n": "文件名",
+  "file_s": "文件大小",
+  "file_f": "文件格式",
+  "frameRate": "帧速率",
+  "ftyp": "字体"
+}

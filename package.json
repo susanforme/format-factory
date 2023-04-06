@@ -5,12 +5,12 @@
   "homepage": "https://susanforme.github.io/format-factory",
   "scripts": {
     "build": "vue-tsc && vite build",
+    "build-language": "esno ./scripts/build-i18n.ts",
     "dev": "vite --host",
     "format": "prettier  --config ./.prettierrc.cjs --cache --write .",
-    "build-language": "esno ./scripts/build-i18n.ts",
-    "preview": "vite preview",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx src",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",

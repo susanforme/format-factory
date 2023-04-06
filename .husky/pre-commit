@@ -1,19 +1,4 @@
-#!/bin/sh
-###
- # @Author: zhicheng ran
- # @Date: 2023-04-06 16:22:20
- # @LastEditTime: 2023-04-06 16:29:12
- # @FilePath: \format-factory\.husky\pre-commit
- # @Description: 
-### 
-echo "*****Running unit tests******"
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
 
-git stash -q --keep-index
-
-pnpm lint
-
-status=$?
-
-git stash pop -q
-
-exit $statusnpx lint-staged
+pnpm lint && pnpm format && pnpm lint:style
