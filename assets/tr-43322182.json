@@ -1,0 +1,13 @@
+{
+  "os": "İşletim sistemi",
+  "browser": "Tarayıcı",
+  "cpu": "Merkez İşlem Birimi",
+  "sys_info": "Sistem Bilgisi",
+  "video": "Video Frekansı",
+  "audio": "Ses Frekansı",
+  "pic": "Resim",
+  "file_n": "Dosya Adı",
+  "file_s": "Dosya Boyutu",
+  "file_f": "Dosya Biçimi",
+  "frameRate": "Çerçeve Hızı"
+}

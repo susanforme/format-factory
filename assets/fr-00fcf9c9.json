@@ -1,0 +1,13 @@
+{
+  "os": "Système d'exploitation",
+  "browser": "Navigateur",
+  "cpu": "Unité centrale de traitement",
+  "sys_info": "Informations sur le système",
+  "video": "Fréquence de la vidéo",
+  "audio": "Fréquence audio",
+  "pic": "L'image",
+  "file_n": "Nom du fichier",
+  "file_s": "Taille du fichier",
+  "file_f": "Format du fichier",
+  "frameRate": "Fréquence d'images"
+}
