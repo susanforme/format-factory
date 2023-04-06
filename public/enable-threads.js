@@ -4,7 +4,8 @@
 /* Edited version of: coi-serviceworker v0.1.7 - rzc, licensed under MIT */
 // From here: https://github.com/gzuidhof/coi-serviceworker
 
-const CACHE_VERSION = "v1";
+// when modifying this file, make sure to update the version number in the path (public\enable-threads.js?v=0.1.7) so that the service worker is updated
+const CACHE_VERSION = "v2";
 
 /**@type {ServiceWorkerGlobalScope} sw */
 const sw = self;
