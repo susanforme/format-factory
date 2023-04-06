@@ -1,0 +1,1 @@
+const o="운영 체제",s="브라우저",c="중앙처리장치",e="시스템 정보",n="비디오",t="오디오",i="사진",f="파일 이름",a="파일 크기",_="파일 형식",l="프레임 속도",r={os:o,browser:s,cpu:c,sys_info:e,video:n,audio:t,pic:i,file_n:f,file_s:a,file_f:_,frameRate:l};export{t as audio,s as browser,c as cpu,r as default,_ as file_f,f as file_n,a as file_s,l as frameRate,o as os,i as pic,e as sys_info,n as video};

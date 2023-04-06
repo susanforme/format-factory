@@ -1,1 +1,0 @@
-const o="作業系統",s="瀏覽器",t="中央處理機",c="系統資訊",n="視頻",e="音頻",f="圖片",i="檔案名",a="檔案大小",_="檔案格式",l="幀速率",p="字體",r={os:o,browser:s,cpu:t,sys_info:c,video:n,audio:e,pic:f,file_n:i,file_s:a,file_f:_,frameRate:l,ftyp:p};export{e as audio,s as browser,t as cpu,r as default,_ as file_f,i as file_n,a as file_s,l as frameRate,p as ftyp,o as os,f as pic,c as sys_info,n as video};

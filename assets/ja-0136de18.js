@@ -1,0 +1,1 @@
+const o="オペレーティングシステム",s="ブラウザ",c="中央プロセッサ",e="システム情報",n="ビデオです",t="オーディオ",i="写真",f="書類名",a="書類の大きさ",_="書類形式",l="フレームレート",r={os:o,browser:s,cpu:c,sys_info:e,video:n,audio:t,pic:i,file_n:f,file_s:a,file_f:_,frameRate:l};export{t as audio,s as browser,c as cpu,r as default,_ as file_f,f as file_n,a as file_s,l as frameRate,o as os,i as pic,e as sys_info,n as video};
