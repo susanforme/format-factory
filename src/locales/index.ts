@@ -1,18 +1,24 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-04-04 16:21:23
- * @LastEditTime: 2023-04-04 16:24:51
+ * @LastEditTime: 2023-04-06 15:55:39
  * @FilePath: \format-factory\src\locales\index.ts
  * @Description:
  */
+import { ELEMENT_LOCALE } from '@/constants';
+import { locale as LocalInstance } from '@/store';
 import { nextTick } from 'vue';
 import { createI18n, I18n, Locale } from 'vue-i18n';
+import en from './lang/en.json';
 
-export function setupI18n(options = { locale: 'en' }) {
-  const i18n = createI18n(options);
-  setI18nLanguage(i18n, options.locale);
-  return i18n;
-}
+export const i18n = createI18n({
+  // something vue-i18n options here ...
+  // legacy: false,
+  locale: 'en',
+  messages: {
+    en,
+  } as any,
+});
 
 export function setI18nLanguage(
   i18n: I18n,
@@ -43,6 +49,11 @@ export async function loadLocaleMessages(
   const messages = await import(
     /* webpackChunkName: "locale-[request]" */ `./lang/${locale}.json`
   );
+  // load element-plus lang
+  const { default: lang } = await ELEMENT_LOCALE[locale]();
+
+  // set element-plus lang
+  LocalInstance.value = lang;
   // set locale and locale message
   i18n.global.setLocaleMessage(locale, messages.default);
   return nextTick();

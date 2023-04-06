@@ -51,17 +51,17 @@ const ua = new UAParser(
         <div class="file">
           <!-- TODO: 队列 -->
           <div class="info">
-            <h2>系统信息:</h2>
+            <h2>{{ $t('sys_info') }}:</h2>
             <p>
-              浏览器: {{ ua.browser.name }}
+              {{ $t('browser') }}: {{ ua.browser.name }}
               {{ ua.browser.version }}
             </p>
             <p>
-              操作系统: {{ ua.os.name }}
+              {{ $t('os') }}: {{ ua.os.name }}
               {{ ua.os.version }}
             </p>
             <p>
-              cpu:
+              {{ $t('cpu') }} :
               {{ ua.cpu.architecture }}
             </p>
           </div>

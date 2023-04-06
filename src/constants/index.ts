@@ -1,7 +1,7 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-03-29 14:54:05
- * @LastEditTime: 2023-04-04 16:28:39
+ * @LastEditTime: 2023-04-06 15:12:09
  * @FilePath: \format-factory\src\constants\index.ts
  * @Description:
  */
@@ -52,3 +52,51 @@ export const LANGUAGE_CODE_ENTITY = (
   acc[cur] = cur;
   return acc;
 }, {} as Record<LANGUAGE_CODE, LANGUAGE_CODE>);
+
+/**
+ * @description the language name
+ */
+export const LANGUAGE_NAME: Record<LANGUAGE_CODE, string> =
+  {
+    'zh-CN': '中文',
+    'zh-TW': '繁體中文',
+    en: 'English',
+    ja: '日本語',
+    ko: '한국어',
+    fr: 'Français',
+    de: 'Deutsch',
+    es: 'Español',
+    it: 'Italiano',
+    pt: 'Português',
+    ru: 'Русский',
+    tr: 'Türkçe',
+  };
+
+export const ELEMENT_LOCALE = new Proxy<
+  Record<string, () => Promise<any>>
+>(
+  {
+    'zh-CN': () =>
+      import('element-plus/es/locale/lang/zh-cn'),
+    'zh-TW': () =>
+      import('element-plus/es/locale/lang/zh-tw'),
+    en: () => import('element-plus/es/locale/lang/en'),
+    ja: () => import('element-plus/es/locale/lang/ja'),
+    ko: () => import('element-plus/es/locale/lang/ko'),
+    fr: () => import('element-plus/es/locale/lang/fr'),
+    de: () => import('element-plus/es/locale/lang/de'),
+    es: () => import('element-plus/es/locale/lang/es'),
+    it: () => import('element-plus/es/locale/lang/it'),
+    pt: () => import('element-plus/es/locale/lang/pt'),
+    ru: () => import('element-plus/es/locale/lang/ru'),
+    tr: () => import('element-plus/es/locale/lang/tr'),
+  },
+  {
+    get(target: any, key) {
+      if (target[key]) {
+        return target[key];
+      }
+      return target['en'];
+    },
+  },
+);
