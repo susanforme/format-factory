@@ -19,6 +19,7 @@ const accept = computed(() => {
   } else if (route.path === '/picture') {
     return 'audio/*';
   }
+  return '';
 });
 
 watch(

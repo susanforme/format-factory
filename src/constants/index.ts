@@ -1,7 +1,7 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-03-29 14:54:05
- * @LastEditTime: 2023-04-06 15:12:09
+ * @LastEditTime: 2023-04-06 17:16:54
  * @FilePath: \format-factory\src\constants\index.ts
  * @Description:
  */
@@ -77,7 +77,10 @@ export const ELEMENT_LOCALE = new Proxy<
 >(
   {
     'zh-CN': () =>
-      import('element-plus/es/locale/lang/zh-cn'),
+      import(
+        // /* webpackChunkName: "detail" */
+        'element-plus/es/locale/lang/zh-cn'
+      ),
     'zh-TW': () =>
       import('element-plus/es/locale/lang/zh-tw'),
     en: () => import('element-plus/es/locale/lang/en'),

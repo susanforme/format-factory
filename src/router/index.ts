@@ -1,7 +1,7 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-03-10 15:12:33
- * @LastEditTime: 2023-04-06 15:57:20
+ * @LastEditTime: 2023-04-06 17:15:08
  * @FilePath: \format-factory\src\router\index.ts
  * @Description:
  */
@@ -10,6 +10,7 @@ import {
   loadLocaleMessages,
   setI18nLanguage,
 } from '@/locales';
+import NProgress from 'nprogress';
 import {
   createRouter,
   createWebHashHistory,
@@ -42,9 +43,9 @@ export const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  NProgress.start();
   const paramsLocale = to.params.locale as string;
   const fromLocale = from.params.locale as string;
-
   if (fromLocale !== paramsLocale && paramsLocale) {
     // use locale if paramsLocale is not in SUPPORT_LOCALES
     // load locale messages
@@ -56,8 +57,12 @@ router.beforeEach(async (to, from, next) => {
     // set i18n language
     setI18nLanguage(i18n, paramsLocale);
   }
-
   return next();
+});
+
+router.afterEach(() => {
+  // 关闭进度条
+  NProgress.done();
 });
 
 // TODO: 添加路由守卫,切换路由销毁ffmpeg或加载

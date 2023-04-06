@@ -18,12 +18,14 @@
     "@ffmpeg/ffmpeg": "0.11.6",
     "element-plus": "^2.2.36",
     "mediainfo.js": "^0.1.9",
+    "nprogress": "^0.2.0",
     "ua-parser-js": "^1.0.34",
     "vue": "^3.2.45",
     "vue-i18n": "9"
   },
   "devDependencies": {
     "@types/node": "^18.15.6",
+    "@types/nprogress": "^0.2.0",
     "@types/ua-parser-js": "^0.7.36",
     "@vitejs/plugin-vue": "^4.1.0",
     "@vue/eslint-config-prettier": "^7.0.0",
