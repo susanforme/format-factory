@@ -99,7 +99,7 @@ export function fileToUnit8Array(
 ): Promise<Uint8Array> {
   return new Promise(resolve => {
     const reader = new FileReader();
-    reader.onload = e => {
+    reader.onload = () => {
       resolve(new Uint8Array(reader.result as ArrayBuffer));
     };
     reader.readAsArrayBuffer(file);
@@ -117,13 +117,6 @@ export function formatFileSize(size: number) {
     index++;
   }
   return `${size.toFixed(2)}${unit[index]}`;
-}
-
-// 下划线转驼峰
-export function toHump(name: string) {
-  return name.replace(/\_(\w)/g, function (all, letter) {
-    return letter.toUpperCase();
-  });
 }
 
 // 展平对象数组

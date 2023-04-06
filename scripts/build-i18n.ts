@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as tencentcloud from 'tencentcloud-sdk-nodejs';
 import type { TextTranslateBatchRequest } from 'tencentcloud-sdk-nodejs/tencentcloud/services/tmt/v20180321/tmt_models';
-import db from '../assets/en.json';
+import db from '../assets/zh.json';
 import {
   LANGUAGE_CODE,
   LANGUAGE_CODE_ENTITY,
@@ -12,12 +12,6 @@ import {
   objectAssembly,
   RequestTimeLimitsQueue,
 } from './util';
-
-console.log(
-  '%c [ db ]-7',
-  'font-size:13px; background:pink; color:#bf2c9f;',
-  db,
-);
 
 const credential = dotenv.config().parsed;
 
@@ -70,7 +64,7 @@ async function translateTexts(
   targetLanguage: LANGUAGE_CODE,
 ) {
   // if the target language is english, return the original text
-  if (targetLanguage === 'en') {
+  if (targetLanguage === 'zh-CN') {
     return texts;
   }
   let curTotalSize = 0,
@@ -98,6 +92,7 @@ async function translateTexts(
     const params: TextTranslateBatchRequest = {
       Source: 'auto',
       Target:
+        //@ts-ignore
         targetLanguage === 'zh-CN' ? 'zh' : targetLanguage,
       SourceTextList: chunk,
       ProjectId: 0,
@@ -139,3 +134,5 @@ function writeTranslateJsonFile(
     );
   });
 }
+//Q: package.json中 eslint 执行代码检查
+//A: eslint --ext .ts,.tsx,.js,.jsx src
