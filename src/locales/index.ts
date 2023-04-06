@@ -1,7 +1,7 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-04-04 16:21:23
- * @LastEditTime: 2023-04-06 15:55:39
+ * @LastEditTime: 2023-04-06 16:45:10
  * @FilePath: \format-factory\src\locales\index.ts
  * @Description:
  */
@@ -46,15 +46,16 @@ export async function loadLocaleMessages(
   locale: Locale,
 ) {
   // load locale messages with dynamic import
-  const messages = await import(
-    /* webpackChunkName: "locale-[request]" */ `./lang/${locale}.json`
+  const data = await fetch(
+    new URL(`./lang/${locale}.json`, import.meta.url).href,
   );
+  const messages = JSON.parse(await data.text());
   // load element-plus lang
   const { default: lang } = await ELEMENT_LOCALE[locale]();
 
   // set element-plus lang
   LocalInstance.value = lang;
   // set locale and locale message
-  i18n.global.setLocaleMessage(locale, messages.default);
+  i18n.global.setLocaleMessage(locale, messages);
   return nextTick();
 }

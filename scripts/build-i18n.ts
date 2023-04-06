@@ -92,7 +92,7 @@ async function translateTexts(
     const params: TextTranslateBatchRequest = {
       Source: 'auto',
       Target:
-        //@ts-ignore
+        //@ts-ignore 错误的提示
         targetLanguage === 'zh-CN' ? 'zh' : targetLanguage,
       SourceTextList: chunk,
       ProjectId: 0,

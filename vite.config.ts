@@ -95,6 +95,7 @@ export default defineConfig({
   ],
   build: {
     // target: "chrome94",
+    assetsInlineLimit: 0,
     rollupOptions: {
       output: {
         manualChunks: {

@@ -59,6 +59,7 @@ async function handleFetch(request) {
   const strongCacheReg = [
     // https://regex101.com/
     /.*\.wasm.*/i,
+    /.*\.json.*/i,
     /.*(png|svga|ico).*/,
     // element包
     /element-plus-\w*\.js/,
