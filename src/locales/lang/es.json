@@ -1,1 +1,27 @@
-{"os":"Sistema operativo","browser":"Navegador","cpu":"CPU","sys_info":"Información del sistema","video":"Frecuencia de vídeo","audio":"Frecuencia de audio","pic":"Imagen","file_n":"Nombre del archivo","file_s":"Tamaño del archivo","Format":"Formato de archivo","Format_Profile":"Formato perfil","OverallBitRate":"Tasa total de bits","Duration":"Duración del tiempo","FrameRate":"Tasa de marcos","FrameCount":"Número de Fram","Encoded_Application":"Aplicación de codificación","CodecID":"ID de codificación","upload_tip_pre":"Arrastre el archivo aquí o","upload_tip_t":"Haga clic para seleccionar","empty_tip":"Por favor seleccione un archivo primero","basic_info":"Información básica","@type":"Tipos","OverallBitRate_Mode":"Modo de velocidad total de bits","HeaderSize":"Tamaño de la cabeza","FooterSize":"Tamaño de la cola"}
+{
+  "os": "Sistema operativo",
+  "browser": "Navegador",
+  "cpu": "CPU",
+  "sys_info": "Información del sistema",
+  "video": "Frecuencia de vídeo",
+  "audio": "Frecuencia de audio",
+  "pic": "Imagen",
+  "file_n": "Nombre del archivo",
+  "file_s": "Tamaño del archivo",
+  "Format": "Formato de archivo",
+  "Format_Profile": "Formato perfil",
+  "OverallBitRate": "Tasa total de bits",
+  "Duration": "Duración del tiempo",
+  "FrameRate": "Tasa de marcos",
+  "FrameCount": "Número de Fram",
+  "Encoded_Application": "Aplicación de codificación",
+  "CodecID": "ID de codificación",
+  "upload_tip_pre": "Arrastre el archivo aquí o",
+  "upload_tip_t": "Haga clic para seleccionar",
+  "empty_tip": "Por favor seleccione un archivo primero",
+  "basic_info": "Información básica",
+  "@type": "Tipos",
+  "OverallBitRate_Mode": "Modo de velocidad total de bits",
+  "HeaderSize": "Tamaño de la cabeza",
+  "FooterSize": "Tamaño de la cola"
+}
