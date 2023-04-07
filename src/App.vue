@@ -61,7 +61,7 @@ const basicInfo = computed(() => ({
               <info-table :data="basicInfo" />
             </el-collapse-item>
           </el-collapse>
-
+          <!-- TODO: 上传后改为播放器,然后转码播放 -->
           <el-upload
             ref="upload"
             v-model:file-list="fileList"
