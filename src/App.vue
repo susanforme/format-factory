@@ -43,7 +43,7 @@ const ua = new UAParser(
 ).getResult();
 
 const basicInfo = computed(() => ({
-  sys_info: `${ua.browser.name} ${ua.browser.version} `,
+  browser: `${ua.browser.name} ${ua.browser.version} `,
   os: `${ua.os.name} ${ua.os.version}`,
   cpu: `${ua.cpu.architecture}`,
 }));
@@ -83,7 +83,7 @@ const basicInfo = computed(() => ({
           </el-upload>
         </div>
         <template v-if="fileList.length === 0">
-          <el-empty description="请先选择文件" />
+          <el-empty :description="$t('empty_tip')" />
         </template>
         <template v-else>
           <router-view></router-view>
