@@ -60,8 +60,8 @@ export type TranscodingConfigType = {
       >
         <el-form-item label="输出格式">
           <el-select
-            filterable
             v-model="config.format"
+            filterable
             placeholder="请选择"
           >
             <el-option
@@ -74,8 +74,8 @@ export type TranscodingConfigType = {
         </el-form-item>
         <el-form-item label="码率">
           <el-input
-            placeholder="请输入"
             v-model="config.kbps"
+            placeholder="请输入"
           ></el-input>
         </el-form-item>
       </el-form>

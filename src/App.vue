@@ -8,7 +8,7 @@ import type {
 import { genFileId } from 'element-plus';
 import UAParser from 'ua-parser-js';
 import { computed, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { fileList } from './store';
 
 const upload = ref<UploadInstance>();
@@ -24,7 +24,7 @@ const accept = computed(() => {
 
 watch(
   () => route.path,
-  path => {
+  () => {
     fileList.value = [];
   },
 );
@@ -35,10 +35,7 @@ const handleExceed: UploadProps['onExceed'] = files => {
   file.uid = genFileId();
   upload.value!.handleStart(file);
 };
-const router = useRouter();
-const routes = router.getRoutes().filter(route => {
-  return route.redirect === undefined;
-});
+
 const ua = new UAParser(
   window.navigator.userAgent,
 ).getResult();
@@ -67,10 +64,10 @@ const ua = new UAParser(
             </p>
           </div>
           <el-upload
+            ref="upload"
             v-model:file-list="fileList"
             multiple
             drag
-            ref="upload"
             :limit="1"
             :auto-upload="false"
             :on-exceed="handleExceed"

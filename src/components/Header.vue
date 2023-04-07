@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-04-04 16:47:03
- * @LastEditTime: 2023-04-06 15:56:30
+ * @LastEditTime: 2023-04-07 13:55:11
  * @FilePath: \format-factory\src\components\Header.vue
  * @Description: 
 -->
@@ -28,7 +28,7 @@ const routes = router.getRoutes().filter(route => {
   return route.redirect === undefined;
 });
 
-const handleSelect = (key: string, keyPath: string[]) => {
+const handleSelect = (key: string) => {
   const path = key.replace('/:locale/', '');
   router.push(`./${path}`);
 };
@@ -47,10 +47,10 @@ const handleCommand = (command: string) => {
       @select="handleSelect"
     >
       <el-menu-item
-        v-for="route in routes"
-        :key="route.path"
-        :index="route.path"
-        >{{ $t(route.name as any) }}
+        v-for="r in routes"
+        :key="r.path"
+        :index="r.path"
+        >{{ $t(r.name as any) }}
       </el-menu-item>
       <div class="right">
         <el-dropdown @command="handleCommand">

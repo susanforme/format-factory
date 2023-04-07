@@ -10,7 +10,8 @@
     "format": "prettier  --config ./.prettierrc.cjs --cache --write .",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx src",
     "prepare": "husky install",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fix": "eslint --fix src"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
