@@ -1,12 +1,13 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-04-04 16:00:34
+ * @LastEditTime: 2023-04-07 13:51:18
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
 <script lang="ts" setup>
 import { computed, reactive, ref, watch } from 'vue';
+import InfoTable from './components/InfoTable.vue';
 
 import { fileList } from '@/store';
 import { formatFileSize, getMediaInfo } from '@/utils';
@@ -46,6 +47,12 @@ const info = ref({
     Encoded_Application: '',
   },
 });
+
+const basicInfo = computed(() => ({
+  file_n: file.value.name,
+  file_s: formatFileSize(file.value.size!),
+  ...info.value.basic,
+}));
 
 const loading = reactive({
   value: false,
@@ -103,11 +110,14 @@ async function getInfo() {
 
   loading.value = false;
 }
-async function init() {}
+async function init() {
+  console.log(123);
+}
 
 init();
-function onTabClick() {}
-
+function onTabClick() {
+  console.log(123);
+}
 function handleTranscoding(config: TranscodingConfigType) {
   console.log(
     '%c [ config ]-70',
@@ -119,64 +129,14 @@ function handleTranscoding(config: TranscodingConfigType) {
 
 <template>
   <div
-    class="video"
     v-loading="loading.value"
+    class="video"
     :element-loading-text="loading.text"
   >
     <div class="info">
       <h2>基本信息:</h2>
-      <div class="row">
-        <div class="label">文件名:</div>
-        <div class="value">{{ file.name }}</div>
-      </div>
-      <div class="row">
-        <div class="label">文件大小:</div>
-        <div class="value">
-          {{ formatFileSize(file.size!) }}
-        </div>
-      </div>
-      <div class="row">
-        <div class="label">格式:</div>
-        <div class="value">
-          {{ info?.basic?.Format }}
-        </div>
-      </div>
-      <div class="row">
-        <div class="label">格式配置文件:</div>
-        <div class="value">
-          {{ info?.basic?.Format_Profile }}
-        </div>
-      </div>
-      <div class="row">
-        <div class="label">总比特率:</div>
-        <div class="value">
-          {{ info?.basic?.OverallBitRate }}
-        </div>
-      </div>
-      <div class="row">
-        <div class="label">帧率:</div>
-        <div class="value">
-          {{ info?.basic?.FrameRate }}
-        </div>
-      </div>
-      <div class="row">
-        <div class="label">帧数:</div>
-        <div class="value">
-          {{ info?.basic?.FrameCount }}
-        </div>
-      </div>
-      <div class="row">
-        <div class="label">视频时长:</div>
-        <div class="value">{{ info?.basic?.Duration }}</div>
-      </div>
-      <div class="row">
-        <div class="label">解码器:</div>
-        <div class="value">
-          {{ info?.basic?.Encoded_Application }}
-        </div>
-      </div>
-
-      <div class="row">
+      <info-table :data="basicInfo" />
+      <!-- <div class="row">
         <div class="label">
           <el-tooltip content="详见 http://ftyps.com/">
             ftyp:
@@ -185,21 +145,13 @@ function handleTranscoding(config: TranscodingConfigType) {
         <div class="value">
           {{ info?.basic?.CodecID }}
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="info">
       <h2>视频流信息:</h2>
-      <div class="row">
-        <div class="label">文件名:</div>
-        <div class="value">{{ file.name }}</div>
-      </div>
     </div>
     <div class="info">
       <h2>音频流信息:</h2>
-      <div class="row">
-        <div class="label">文件名:</div>
-        <div class="value">{{ file.name }}</div>
-      </div>
     </div>
     <div class="config">
       <h2>通用导出配置:</h2>
@@ -210,8 +162,8 @@ function handleTranscoding(config: TranscodingConfigType) {
       >
         <el-form-item label="输出名称">
           <el-input
-            placeholder="请输入"
             v-model="config.name"
+            placeholder="请输入"
           ></el-input>
         </el-form-item>
       </el-form>
