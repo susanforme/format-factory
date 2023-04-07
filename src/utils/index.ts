@@ -204,3 +204,32 @@ export async function getMediaInfo(file: File) {
   )) as ResultObject;
   return result;
 }
+
+/**
+ * @param keys 排除的key
+ * @description 排除对象中的某些key
+ */
+export function omit<
+  T extends Record<string, any>,
+  K extends keyof T,
+>(obj: T, keys: K[]) {
+  return Object.fromEntries(
+    Object.entries(obj).filter(
+      ([key]) => !keys.includes(key as K),
+    ),
+  ) as Omit<T, K>;
+}
+/**
+ * @param keys 取key
+ * @description 取对象中的某些key
+ */
+export function pick<
+  T extends Record<string, any>,
+  K extends keyof T,
+>(obj: T, keys: K[]) {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([key]) =>
+      keys.includes(key as K),
+    ),
+  ) as Pick<T, K>;
+}

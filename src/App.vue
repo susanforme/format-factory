@@ -22,6 +22,8 @@ const accept = computed(() => {
   return '';
 });
 
+const collapseActiveName = ref('1');
+
 watch(
   () => route.path,
   () => {
@@ -39,6 +41,12 @@ const handleExceed: UploadProps['onExceed'] = files => {
 const ua = new UAParser(
   window.navigator.userAgent,
 ).getResult();
+
+const basicInfo = computed(() => ({
+  sys_info: `${ua.browser.name} ${ua.browser.version} `,
+  os: `${ua.os.name} ${ua.os.version}`,
+  cpu: `${ua.cpu.architecture}`,
+}));
 </script>
 
 <template>
@@ -48,21 +56,12 @@ const ua = new UAParser(
       <div class="main">
         <div class="file">
           <!-- TODO: 队列 -->
-          <div class="info">
-            <h2>{{ $t('sys_info') }}:</h2>
-            <p>
-              {{ $t('browser') }}: {{ ua.browser.name }}
-              {{ ua.browser.version }}
-            </p>
-            <p>
-              {{ $t('os') }}: {{ ua.os.name }}
-              {{ ua.os.version }}
-            </p>
-            <p>
-              {{ $t('cpu') }} :
-              {{ ua.cpu.architecture }}
-            </p>
-          </div>
+          <el-collapse v-model="collapseActiveName">
+            <el-collapse-item title="基本信息" name="1">
+              <info-table :data="basicInfo" />
+            </el-collapse-item>
+          </el-collapse>
+
           <el-upload
             ref="upload"
             v-model:file-list="fileList"
@@ -78,7 +77,8 @@ const ua = new UAParser(
               ><upload-filled
             /></el-icon>
             <div class="el-upload__text">
-              将文件拖到此处 或 <em>点击选择</em>
+              {{ $t('upload_tip_pre') }}
+              <em>{{ $t('upload_tip_t') }}</em>
             </div>
           </el-upload>
         </div>

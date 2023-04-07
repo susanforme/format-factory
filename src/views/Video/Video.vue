@@ -1,16 +1,20 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-04-07 13:51:18
+ * @LastEditTime: 2023-04-07 14:31:19
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
 <script lang="ts" setup>
 import { computed, reactive, ref, watch } from 'vue';
-import InfoTable from './components/InfoTable.vue';
+import InfoTable from '../../components/InfoTable.vue';
 
 import { fileList } from '@/store';
-import { formatFileSize, getMediaInfo } from '@/utils';
+import {
+  formatFileSize,
+  getMediaInfo,
+  omit,
+} from '@/utils';
 import Transcoding, {
   TranscodingConfigType,
 } from './components/Transcoding.vue';
@@ -20,6 +24,7 @@ const config = reactive({
 });
 
 const activeName = ref('transcoding');
+const collapseActiveName = ref('-1');
 const info = ref({
   audio: {},
   video: {
@@ -104,7 +109,10 @@ async function getInfo() {
         format: track.Format,
       };
     } else if (type === 'General') {
-      info.value.basic = track;
+      info.value.basic = omit(track, [
+        'FileSize',
+        'DataSize',
+      ]) as any;
     }
   });
 
@@ -133,10 +141,18 @@ function handleTranscoding(config: TranscodingConfigType) {
     class="video"
     :element-loading-text="loading.text"
   >
-    <div class="info">
-      <h2>基本信息:</h2>
-      <info-table :data="basicInfo" />
-      <!-- <div class="row">
+    <el-collapse v-model="collapseActiveName">
+      <el-collapse-item title="基本信息" name="1">
+        <info-table :data="basicInfo" />
+      </el-collapse-item>
+      <el-collapse-item title="视频流信息" name="2">
+        <info-table :data="basicInfo" />
+      </el-collapse-item>
+      <el-collapse-item title="音频流信息" name="3">
+        <info-table :data="basicInfo" />
+      </el-collapse-item>
+    </el-collapse>
+    <!-- <div class="row">
         <div class="label">
           <el-tooltip content="详见 http://ftyps.com/">
             ftyp:
@@ -146,13 +162,7 @@ function handleTranscoding(config: TranscodingConfigType) {
           {{ info?.basic?.CodecID }}
         </div>
       </div> -->
-    </div>
-    <div class="info">
-      <h2>视频流信息:</h2>
-    </div>
-    <div class="info">
-      <h2>音频流信息:</h2>
-    </div>
+
     <div class="config">
       <h2>通用导出配置:</h2>
       <el-form

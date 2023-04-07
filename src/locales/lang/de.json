@@ -1,13 +1,1 @@
-{
-  "os": "Betriebssystem",
-  "browser": "Browser",
-  "cpu": "Zentrale Verarbeitungseinheit",
-  "sys_info": "Systeminformationen",
-  "video": "Häufigkeit des Videos",
-  "audio": "Audiofrequenz",
-  "pic": "Das Bild",
-  "file_n": "Dateiname",
-  "file_s": "Dateigröße",
-  "file_f": "Das Dateinformat",
-  "frameRate": "Bildrate"
-}
+{"os":"Betriebssystem","browser":"Browser","cpu":"CPU","sys_info":"Systeminformationen","video":"Häufigkeit des Videos","audio":"Audiofrequenz","pic":"Das Bild","file_n":"Dateiname","file_s":"Dateigröße","Format":"Das Dateinformat","Format_Profile":"Formatprofil","OverallBitRate":"","Duration":"Länge der Zeit","FrameRate":"Bildrate","FrameCount":"Anzahl der Fram","Encoded_Application":"Codierungsanwendungen","CodecID":"Codierungskennung","upload_tip_pre":"Ziehen Sie die Datei hier oder","upload_tip_t":"Wählen Sie bitte mit einem Klick aus","empty_tip":"Bitte wählen Sie zuerst eine Datei","basic_info":"Grundlegende Informationen","@type":"Typen","OverallBitRate_Mode":"Modus der Gesamtrate der Bitrate","HeaderSize":"Größe des Kopfes","FooterSize":"Größe des Schwanzes"}

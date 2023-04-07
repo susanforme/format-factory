@@ -19,5 +19,14 @@
   "upload_tip_pre": "将文件拖到此处 或",
   "upload_tip_t": "点击选择",
   "empty_tip": "请先选择文件",
-  "basic_info": "基本信息"
+  "basic_info": "基本信息",
+  "@type": "类型",
+  "OverallBitRate_Mode": "总比特率模式",
+  "HeaderSize": "头部大小",
+  "FooterSize": "尾部大小",
+  "IsStreamable": "是否流",
+  "VideoCount": "视频流数",
+  "AudioCount": "音频流数",
+  "CodecID_Compatible": "编码ID兼容",
+  "StreamSize": "流大小"
 }

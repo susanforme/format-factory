@@ -1,7 +1,7 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-04-04 16:21:23
- * @LastEditTime: 2023-04-06 16:45:10
+ * @LastEditTime: 2023-04-07 14:12:31
  * @FilePath: \format-factory\src\locales\index.ts
  * @Description:
  */
@@ -13,11 +13,11 @@ import en from './lang/en.json';
 
 export const i18n = createI18n({
   // something vue-i18n options here ...
-  // legacy: false,
+  legacy: false,
   locale: 'en',
   messages: {
     en,
-  } as any,
+  } as unknown as undefined,
 });
 
 export function setI18nLanguage(

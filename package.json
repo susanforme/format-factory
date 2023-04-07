@@ -7,11 +7,11 @@
     "build": "vue-tsc && vite build",
     "build-language": "esno ./scripts/build-i18n.ts",
     "dev": "vite --host",
+    "fix": "eslint --fix src",
     "format": "prettier  --config ./.prettierrc.cjs --cache --write .",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx src",
     "prepare": "husky install",
-    "preview": "vite preview",
-    "fix": "eslint --fix src"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
