@@ -1,7 +1,7 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-04-04 16:21:23
- * @LastEditTime: 2023-04-07 14:12:31
+ * @LastEditTime: 2023-04-10 15:17:40
  * @FilePath: \format-factory\src\locales\index.ts
  * @Description:
  */
@@ -15,6 +15,11 @@ export const i18n = createI18n({
   // something vue-i18n options here ...
   legacy: false,
   locale: 'en',
+  silentTranslationWarn: true,
+  silentFallbackWarn: true,
+  fallbackWarn: false,
+  missingWarn: false,
+  fallbackLocale: 'en',
   messages: {
     en,
   } as unknown as undefined,

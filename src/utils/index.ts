@@ -233,3 +233,84 @@ export function pick<
     ),
   ) as Pick<T, K>;
 }
+
+/**
+ * @description 清除对象中值为null和undefined
+
+ */
+export function clearObjectValue<
+  T extends Record<string, any>,
+>(obj: T) {
+  return Object.fromEntries(
+    Object.entries(obj).filter(
+      ([, value]) => value != null,
+    ),
+  ) as T;
+}
+
+/**
+ * 确保值存在,才会进行下一步
+ */
+export function ensure(getRes: () => boolean, time = 100) {
+  const res = getRes();
+  return new Promise((resolve, rej) => {
+    try {
+      if (!res) {
+        setTimeout(() => {
+          ensure(getRes, time)
+            .then(v => resolve(v))
+            .catch(e => rej(e));
+        }, time);
+      } else {
+        resolve(true);
+      }
+    } catch (error) {
+      rej(error);
+    }
+  });
+}
+
+/**
+ * @description obj,key value 转arr
+ */
+export function objToArr<T extends Record<string, any>>(
+  obj: T,
+): Array<[keyof T, T[keyof T]]> {
+  return Object.entries(obj) as Array<
+    [keyof T, T[keyof T]]
+  >;
+}
+
+/**
+ * @description 展平数组
+ */
+
+export function flatten<T>(arr: any[]) {
+  return arr.flat(Infinity) as T[];
+}
+
+/**
+ * @description 将对象转换为ffmpeg的命令
+ */
+export function objToFFmpegCmd(
+  obj: Record<string, string>,
+) {
+  const arr = flatten<string>(
+    objToArr(clearObjectValue(obj)),
+  );
+  return arr;
+}
+
+/**
+ * @description 获取除开后缀的文件名
+ */
+export function getFileNameWithoutExt(filename: string) {
+  return filename.replace(/\.[^/.]+$/, '');
+}
+
+/**
+ * @description 获取可用编码
+ */
+export function getCodecs(ffmpeg: FFmpeg) {
+  return ffmpeg.run('-codecs');
+}

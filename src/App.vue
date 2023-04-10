@@ -57,7 +57,7 @@ const basicInfo = computed(() => ({
         <div class="file">
           <!-- TODO: 队列 -->
           <el-collapse v-model="collapseActiveName">
-            <el-collapse-item title="基本信息" name="1">
+            <el-collapse-item title="平台信息" name="1">
               <info-table :data="basicInfo" />
             </el-collapse-item>
           </el-collapse>
@@ -90,6 +90,7 @@ const basicInfo = computed(() => ({
         </template>
       </div>
     </main>
+    <Footer></Footer>
   </div>
 </template>
 

@@ -1,12 +1,14 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-27 15:38:33
- * @LastEditTime: 2023-03-27 16:05:51
+ * @LastEditTime: 2023-04-10 16:23:24
  * @FilePath: \format-factory\src\views\Video\components\Transcoding.vue
  * @Description: 
 -->
 <script lang="ts" setup>
 import { reactive } from 'vue';
+// ffmpeg支持的视频格式
+
 // 视频格式
 const formats = [
   'mp4',
@@ -25,13 +27,12 @@ const formats = [
   'm2ts',
   'vob',
   'mxf',
-  'rm',
-  'rmvb',
   'f4v',
 ];
 const config = reactive({
   format: 'mp4',
   kbps: 1000,
+  frameRate: 60,
 });
 
 const props = defineProps<{
@@ -46,6 +47,7 @@ function handleFinish() {
 export type TranscodingConfigType = {
   format: string;
   kbps: number;
+  frameRate: number;
 };
 </script>
 
@@ -75,6 +77,12 @@ export type TranscodingConfigType = {
         <el-form-item label="码率">
           <el-input
             v-model="config.kbps"
+            placeholder="请输入"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="帧率">
+          <el-input
+            v-model="config.frameRate"
             placeholder="请输入"
           ></el-input>
         </el-form-item>
