@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-04-07 14:31:19
+ * @LastEditTime: 2023-04-10 14:57:52
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
@@ -9,6 +9,7 @@
 import { computed, reactive, ref, watch } from 'vue';
 import InfoTable from '../../components/InfoTable.vue';
 
+import { i18n } from '@/locales';
 import { fileList } from '@/store';
 import {
   formatFileSize,
@@ -100,13 +101,13 @@ async function getInfo() {
     const type = track['@type'];
     if (type === 'Video') {
       info.value.video = {
-        code: track.CodecID,
-        format: track.Format,
+        ...(omit(track, ['FileSize', 'DataSize']) as any),
+        '@type': i18n.global.t('video'),
       };
     } else if (type === 'Audio') {
       info.value.audio = {
-        code: track.CodecID,
-        format: track.Format,
+        ...(omit(track, ['FileSize', 'DataSize']) as any),
+        '@type': i18n.global.t('audio'),
       };
     } else if (type === 'General') {
       info.value.basic = omit(track, [
@@ -146,10 +147,10 @@ function handleTranscoding(config: TranscodingConfigType) {
         <info-table :data="basicInfo" />
       </el-collapse-item>
       <el-collapse-item title="视频流信息" name="2">
-        <info-table :data="basicInfo" />
+        <info-table :data="info.video" />
       </el-collapse-item>
       <el-collapse-item title="音频流信息" name="3">
-        <info-table :data="basicInfo" />
+        <info-table :data="info.audio" />
       </el-collapse-item>
     </el-collapse>
     <!-- <div class="row">
