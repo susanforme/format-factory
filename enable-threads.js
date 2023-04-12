@@ -104,7 +104,7 @@ if (typeof window === "undefined") {
   sw.addEventListener("activate", (e) => e.waitUntil(wait()));
   sw.addEventListener("fetch", function (e) {
     // respondWith must be executed synchronously (but can be passed a Promise)
-    const blacklist =['hm.baidu.com'];
+    const blacklist =['hm.baidu.com','www.googletagmanager.com'];
     if(!blacklist.some(v=>e.request.url.includes(v))){
       e.respondWith(handleFetch(e.request));
     }
