@@ -314,3 +314,30 @@ export function getFileNameWithoutExt(filename: string) {
 export function getCodecs(ffmpeg: FFmpeg) {
   return ffmpeg.run('-codecs');
 }
+
+/**
+ * @description 判断值是否为null或undefined
+ */
+export function isNil(value: any) {
+  return (
+    Object.is(value, null) || Object.is(value, undefined)
+  );
+}
+
+/**
+ * @description 计时器
+ */
+export class Timer {
+  #timer: any;
+  #time = 0;
+  constructor(private time: number) {}
+  start(fn: (time: number) => any) {
+    this.#timer = setInterval(() => {
+      this.#time += this.time;
+      fn(this.#time);
+    }, this.time);
+  }
+  stop() {
+    clearInterval(this.#timer);
+  }
+}

@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-04-10 17:05:35
+ * @LastEditTime: 2023-04-12 15:05:55
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
@@ -24,6 +24,7 @@ import {
   initFfmpeg,
   objToFFmpegCmd,
   omit,
+  Timer,
 } from '@/utils';
 
 import { FFmpeg } from '@ffmpeg/ffmpeg';
@@ -41,6 +42,12 @@ let ffmpeg: FFmpeg | null = null;
 
 const activeName = ref('transcoding');
 const collapseActiveName = ref('-1');
+const percentageLoading = reactive({
+  loading: false,
+  percentage: 0,
+  text: '',
+  tip: '',
+});
 const info = ref({
   audio: {},
   video: {},
@@ -127,8 +134,34 @@ function onTabClick() {
 async function handleTranscoding(
   config: TranscodingConfigType,
 ) {
+  percentageLoading.loading = true;
   try {
     const { format, frameRate } = config;
+    const timer = new Timer(1000);
+    timer.start(currentTime => {
+      const time = Number(
+        (
+          (currentTime *
+            (100 - percentageLoading.percentage)) /
+          percentageLoading.percentage /
+          1000
+        ).toFixed(0),
+      );
+      percentageLoading.tip = `已耗时${
+        currentTime / 1000
+      }秒,预计还需${time}秒`;
+    });
+    ffmpeg?.setProgress((progress: any) => {
+      const { ratio } = progress;
+      if (ratio >= 1) {
+        timer.stop();
+        percentageLoading.tip = '已完成';
+      }
+      const nowPercentage = Number(
+        (ratio * 100).toFixed(1),
+      );
+      percentageLoading.percentage = nowPercentage;
+    });
     const cmd = objToFFmpegCmd({
       // 输入视频文件
       '-i': file.value.name,
@@ -173,6 +206,7 @@ async function handleTranscoding(
       type: 'error',
     });
   }
+  percentageLoading.loading = false;
 }
 
 init();
@@ -245,6 +279,7 @@ init();
         ></el-tab-pane>
       </el-tabs>
     </div>
+    <progress-loading v-bind="percentageLoading" />
   </div>
 </template>
 
