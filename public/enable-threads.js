@@ -104,7 +104,10 @@ if (typeof window === "undefined") {
   sw.addEventListener("activate", (e) => e.waitUntil(wait()));
   sw.addEventListener("fetch", function (e) {
     // respondWith must be executed synchronously (but can be passed a Promise)
-    e.respondWith(handleFetch(e.request));
+    const blacklist =['hm.baidu.com'];
+    if(!blacklist.some(v=>e.request.url.includes(v))){
+      e.respondWith(handleFetch(e.request));
+    }
   });
 } else {
   (async function () {
