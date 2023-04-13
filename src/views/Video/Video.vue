@@ -23,7 +23,6 @@ import {
   getMediaInfo,
   initFfmpeg,
   objToFFmpegCmd,
-  omit,
   Timer,
 } from '@/utils';
 
@@ -101,26 +100,24 @@ async function writeFileInFfmpeg() {
 async function getInfo() {
   loading.value = true;
   loading.text = '获取视频信息中...';
-  const result = await getMediaInfo(file.value.raw!);
-  result.media.track.forEach((track: any) => {
-    const type = track['@type'];
+  const { raw } = file.value;
+  const result = await getMediaInfo(raw!);
+  for (const track of result.media.track) {
+    const { '@type': type, ...rest } = track;
     if (type === 'Video') {
       info.value.video = {
-        ...(omit(track, ['FileSize', 'DataSize']) as any),
+        ...rest,
         '@type': i18n.global.t('video'),
       };
     } else if (type === 'Audio') {
       info.value.audio = {
-        ...(omit(track, ['FileSize', 'DataSize']) as any),
+        ...rest,
         '@type': i18n.global.t('audio'),
       };
     } else if (type === 'General') {
-      info.value.basic = omit(track, [
-        'FileSize',
-        'DataSize',
-      ]) as any;
+      info.value.basic = rest;
     }
-  });
+  }
   await ensure(() => !!ffmpeg);
   loading.value = false;
 }
