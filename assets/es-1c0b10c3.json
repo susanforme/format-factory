@@ -23,5 +23,9 @@
   "@type": "Tipos",
   "OverallBitRate_Mode": "Modo de velocidad total de bits",
   "HeaderSize": "Tamaño de la cabeza",
-  "FooterSize": "Tamaño de la cola"
+  "FooterSize": "Tamaño de la cola",
+  "IsStreamable": "Fluir o no",
+  "VideoCount": "Número de secuencias de vídeo",
+  "AudioCount": "Número de flujos de audio",
+  "CodecID_Compatible": "Compatibilidad del ID de codificación"
 }

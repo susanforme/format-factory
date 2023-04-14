@@ -23,5 +23,9 @@
   "@type": "Türler",
   "OverallBitRate_Mode": "Toplam bit hızı kipi",
   "HeaderSize": "Baş Boyutu",
-  "FooterSize": "Kuyruk Boyutu"
+  "FooterSize": "Kuyruk Boyutu",
+  "IsStreamable": "Akıp akmayacağı",
+  "VideoCount": "Video akışlarının sayısı",
+  "AudioCount": "Ses akışı sayısı",
+  "CodecID_Compatible": "Kodlanmış Kimlik Araç Çubuğu"
 }

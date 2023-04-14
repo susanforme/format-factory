@@ -10,7 +10,7 @@
   "file_s": "Dateigröße",
   "Format": "Das Dateinformat",
   "Format_Profile": "Formatprofil",
-  "OverallBitRate": "",
+  "OverallBitRate": "Gesamtzahl der Bitrate",
   "Duration": "Länge der Zeit",
   "FrameRate": "Bildrate",
   "FrameCount": "Anzahl der Fram",
@@ -23,5 +23,9 @@
   "@type": "Typen",
   "OverallBitRate_Mode": "Modus der Gesamtrate der Bitrate",
   "HeaderSize": "Größe des Kopfes",
-  "FooterSize": "Größe des Schwanzes"
+  "FooterSize": "Größe des Schwanzes",
+  "IsStreamable": "Ob fließen",
+  "VideoCount": "Anzahl der Videostreams",
+  "AudioCount": "Anzahl der Audioströme",
+  "CodecID_Compatible": "Kompatibel zur Codierung der ID"
 }

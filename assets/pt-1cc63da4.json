@@ -23,5 +23,9 @@
   "@type": "Tipos",
   "OverallBitRate_Mode": "Modo de débito total de bits",
   "HeaderSize": "Tamanho da cabeça",
-  "FooterSize": "Tamanho da cauda"
+  "FooterSize": "Tamanho da cauda",
+  "IsStreamable": "Se deve ou não fluir",
+  "VideoCount": "Número de transmissões de vídeo",
+  "AudioCount": "Número de fluxos de áudio",
+  "CodecID_Compatible": "Compatibilidade do ID de Codificação"
 }
