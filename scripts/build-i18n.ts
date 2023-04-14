@@ -8,10 +8,7 @@ import {
   LANGUAGE_CODE,
   LANGUAGE_CODE_ENTITY,
 } from '../src/constants';
-import {
-  objectAssembly,
-  RequestTimeLimitsQueue,
-} from './util';
+import { objectAssembly, RequestQueue } from './util';
 
 const credential = dotenv.config().parsed;
 
@@ -47,11 +44,8 @@ async function translate() {
       return writeTranslateJsonFile(texts, key, langPath);
     };
   });
-  await new RequestTimeLimitsQueue(
-    5,
-    1000,
-    requestQueue,
-  ).run();
+  const queue = new RequestQueue(5);
+  queue.addRequest(requestQueue);
   console.log('translate success');
 }
 /**
