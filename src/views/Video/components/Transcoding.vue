@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-27 15:38:33
- * @LastEditTime: 2023-04-19 16:38:34
+ * @LastEditTime: 2023-04-19 17:08:23
  * @FilePath: \format-factory\src\views\Video\components\Transcoding.vue
  * @Description: 
 -->
@@ -129,7 +129,8 @@ async function handleTranscoding() {
         'font-size:13px; background:pink; color:#bf2c9f;',
         progress,
       );
-      if (ratio >= 1) {
+
+      if (ratio >= 1 && !progress.duration) {
         timer.stop();
         percentageLoading.tip =
           '转码已完成,正在执行导出操作...';
@@ -199,6 +200,7 @@ async function handleTranscoding() {
     });
   }
   percentageLoading.loading = false;
+  percentageLoading.tip = '';
 }
 </script>
 
