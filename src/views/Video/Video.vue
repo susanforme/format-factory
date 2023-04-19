@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-04-12 15:05:55
+ * @LastEditTime: 2023-04-19 15:56:12
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
@@ -15,38 +15,26 @@ import { i18n } from '@/locales';
 import { fileList } from '@/store';
 
 import {
-  downloadUnit8Array,
   ensure,
   fileToUnit8Array,
   formatFileSize,
-  getFileNameWithoutExt,
   getMediaInfo,
   initFfmpeg,
-  objToFFmpegCmd,
-  Timer,
 } from '@/utils';
 
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 
-import { ElMessage } from 'element-plus';
+import Transcoding from './components/Transcoding.vue';
+import { CommonConfig } from './type';
 
-import Transcoding, {
-  TranscodingConfigType,
-} from './components/Transcoding.vue';
-
-const config = reactive({
-  name: 'output',
+const config = reactive<CommonConfig>({
+  name: '输出',
 });
-let ffmpeg: FFmpeg | null = null;
+const ffmpeg = ref<FFmpeg | null>(null);
 
 const activeName = ref('transcoding');
 const collapseActiveName = ref('-1');
-const percentageLoading = reactive({
-  loading: false,
-  percentage: 0,
-  text: '',
-  tip: '',
-});
+
 const info = ref({
   audio: {},
   video: {},
@@ -68,8 +56,8 @@ const file = computed(() => fileList.value[0]);
 async function initEncoder() {
   loading.value = true;
   loading.text = '初始化编解码器中...';
-  ffmpeg = await initFfmpeg();
-  ffmpeg.setLogger(({ type, message }) => {
+  ffmpeg.value = await initFfmpeg();
+  ffmpeg?.value.setLogger(({ type, message }) => {
     console.log(type, message);
   });
   loading.value = false;
@@ -92,7 +80,7 @@ async function writeFileInFfmpeg() {
   loading.value = true;
   loading.text = '正在读取文件...';
   const uni8 = await fileToUnit8Array(file.value.raw!);
-  ffmpeg?.FS('writeFile', file.value.name, uni8);
+  ffmpeg.value?.FS('writeFile', file.value.name, uni8);
   console.log('视频已读入ffmpeg');
   loading.value = false;
 }
@@ -118,7 +106,7 @@ async function getInfo() {
       info.value.basic = rest;
     }
   }
-  await ensure(() => !!ffmpeg);
+  await ensure(() => !!ffmpeg.value);
   loading.value = false;
 }
 async function init() {
@@ -127,83 +115,6 @@ async function init() {
 
 function onTabClick() {
   console.log(123);
-}
-async function handleTranscoding(
-  config: TranscodingConfigType,
-) {
-  percentageLoading.loading = true;
-  try {
-    const { format, frameRate } = config;
-    const timer = new Timer(1000);
-    timer.start(currentTime => {
-      const time = Number(
-        (
-          (currentTime *
-            (100 - percentageLoading.percentage)) /
-          percentageLoading.percentage /
-          1000
-        ).toFixed(0),
-      );
-      percentageLoading.tip = `已耗时${
-        currentTime / 1000
-      }秒,预计还需${time}秒`;
-    });
-    ffmpeg?.setProgress((progress: any) => {
-      const { ratio } = progress;
-      if (ratio >= 1) {
-        timer.stop();
-        percentageLoading.tip = '已完成';
-      }
-      const nowPercentage = Number(
-        (ratio * 100).toFixed(1),
-      );
-      percentageLoading.percentage = nowPercentage;
-    });
-    const cmd = objToFFmpegCmd({
-      // 输入视频文件
-      '-i': file.value.name,
-      // 帧率
-      '-r': `${frameRate}`,
-      // 宽高
-      '-s': '1920x1080',
-      // 分辨率 视频分辨率（transsizing）的例子，从 1080p 转为 480p 。
-      // '-vf':'scale=480:-1',
-      // 码率
-      '-b': '1000k',
-      // 黑白
-      '-vf': 'hue=s=0',
-      // 去除音频
-      '-an': '',
-      // 输出质量,指定输出的视频质量，会影响文件的生成速度
-      '-preset': '1',
-      //  ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow
-    });
-    const outputFileName = `${getFileNameWithoutExt(
-      file.value.name,
-    )}.${format.toLowerCase()}`;
-    console.log(
-      '%c [ config ]-70',
-      'font-size:13px; background:pink; color:#bf2c9f;',
-      config,
-    );
-    await ffmpeg?.run(...cmd, outputFileName);
-    const output = ffmpeg?.FS('readFile', outputFileName);
-    if (!output) {
-      throw new Error('转换失败');
-    }
-    downloadUnit8Array(output, 'video/mp4', outputFileName);
-  } catch (error: any) {
-    console.log(
-      '%c [ error ]-156',
-      'font-size:13px; background:pink; color:#bf2c9f;',
-      error,
-    );
-    ElMessage({
-      message: '转换失败',
-      type: 'error',
-    });
-  }
-  percentageLoading.loading = false;
 }
 
 init();
@@ -255,7 +166,11 @@ init();
     <div class="operate">
       <el-tabs v-model="activeName" @tab-click="onTabClick">
         <el-tab-pane name="transcoding" label="转换">
-          <Transcoding :on-finish="handleTranscoding" />
+          <Transcoding
+            :config="config"
+            :encoder="ffmpeg"
+            :file="file"
+          />
         </el-tab-pane>
         <el-tab-pane
           name="Config"
@@ -276,7 +191,6 @@ init();
         ></el-tab-pane>
       </el-tabs>
     </div>
-    <progress-loading v-bind="percentageLoading" />
   </div>
 </template>
 

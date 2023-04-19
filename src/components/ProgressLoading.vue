@@ -1,14 +1,14 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-04-11 16:23:11
- * @LastEditTime: 2023-04-12 14:16:54
+ * @LastEditTime: 2023-04-19 16:06:45
  * @FilePath: \format-factory\src\components\ProgressLoading.vue
  * @Description: 
 -->
 <script lang="ts" setup>
 import { isNil } from '@/utils';
 import { Check } from '@element-plus/icons-vue';
-import { computed, ref, watch } from 'vue';
+import { computed } from 'vue';
 const props = defineProps<{
   loading: boolean;
   percentage?: number;
@@ -16,27 +16,7 @@ const props = defineProps<{
   percentageLabel?: string;
   tip?: string;
 }>();
-const loadingRef = ref(false);
-watch(
-  () => props.loading,
-  () => {
-    if (props.loading) {
-      loadingRef.value = true;
-    } else {
-      // 动画
-    }
-    setTimeout(() => {
-      if (!props.loading) {
-        loadingRef.value = false;
-      } else {
-        // 动画
-      }
-    }, 1000);
-  },
-  {
-    immediate: true,
-  },
-);
+
 const showProgress = computed(() => {
   return !isNil(props.percentage);
 });
@@ -50,7 +30,7 @@ const colors = [
 </script>
 
 <template>
-  <div v-show="loadingRef" class="mask">
+  <div v-show="loading" class="mask">
     <template v-if="showProgress">
       <el-progress
         type="dashboard"
@@ -77,7 +57,10 @@ const colors = [
           >
         </template>
       </el-progress>
-      <div class="tip">{{ tip }}</div>
+      <div class="tip">
+        <!-- {{ (percentage ?? 0) < 100 ? tip : '已完成' }} -->
+        {{ tip }}
+      </div>
     </template>
     <template v-else>加载中</template>
   </div>

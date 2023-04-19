@@ -330,14 +330,20 @@ export function isNil(value: any) {
 export class Timer {
   #timer: any;
   #time = 0;
-  constructor(private time: number) {}
+  timeout: number;
+  constructor(timeout: number) {
+    this.#time = 0;
+    this.timeout = timeout;
+  }
   start(fn: (time: number) => any) {
     this.#timer = setInterval(() => {
-      this.#time += this.time;
+      this.#time += this.timeout;
       fn(this.#time);
-    }, this.time);
+    }, this.timeout);
   }
   stop() {
     clearInterval(this.#timer);
+    this.#time = 0;
+    this.#timer = null;
   }
 }
