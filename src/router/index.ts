@@ -1,7 +1,7 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-03-10 15:12:33
- * @LastEditTime: 2023-04-06 17:15:08
+ * @LastEditTime: 2023-04-20 17:03:52
  * @FilePath: \format-factory\src\router\index.ts
  * @Description:
  */
@@ -56,6 +56,7 @@ router.beforeEach(async (to, from, next) => {
     }
     // set i18n language
     setI18nLanguage(i18n, paramsLocale);
+    document.title = i18n.global.t('homeTitle');
   }
   return next();
 });

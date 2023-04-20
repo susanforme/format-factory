@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-27 15:38:33
- * @LastEditTime: 2023-04-19 17:08:23
+ * @LastEditTime: 2023-04-20 17:17:56
  * @FilePath: \format-factory\src\views\Video\components\Transcoding.vue
  * @Description: 
 -->
@@ -207,17 +207,17 @@ async function handleTranscoding() {
 <template>
   <div>
     <div class="config">
-      <h2>转换配置:</h2>
+      <h2>{{ $t('trans_config') }}:</h2>
       <el-form
         label-position="left"
         label-width="100px"
         :model="config"
       >
-        <el-form-item label="输出格式">
+        <el-form-item :label="$t('output_format')">
           <el-select
             v-model="config.format"
             filterable
-            placeholder="请选择"
+            :placeholder="$t('select_placeholder')"
           >
             <el-option
               v-for="item in formats"
@@ -227,51 +227,51 @@ async function handleTranscoding() {
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="码率">
+        <el-form-item :label="$t('code_rate')">
           <el-input
             v-model="config.kbps"
-            placeholder="请输入"
+            :placeholder="$t('text_placeholder')"
           ></el-input>
         </el-form-item>
-        <el-form-item label="帧率">
+        <el-form-item :label="$t('FrameRate')">
           <el-input
             v-model="config.frameRate"
-            placeholder="请输入"
+            :placeholder="$t('text_placeholder')"
           ></el-input>
         </el-form-item>
-        <el-form-item label="宽">
+        <el-form-item :label="$t('width')">
           <el-input
             v-model="config.width"
-            placeholder="请输入"
+            :placeholder="$t('text_placeholder')"
           ></el-input>
         </el-form-item>
-        <el-form-item label="高">
+        <el-form-item :label="$t('height')">
           <el-input
             v-model="config.height"
-            placeholder="请输入"
+            :placeholder="$t('text_placeholder')"
           ></el-input>
         </el-form-item>
-        <el-form-item label="清晰度">
+        <el-form-item :label="$t('resolution')">
           <el-input
             v-model="config.resolution"
-            placeholder="请输入"
+            :placeholder="$t('text_placeholder')"
           ></el-input>
         </el-form-item>
-        <el-form-item label="是否黑白">
+        <el-form-item :label="$t('is_black')">
           <el-checkbox
             v-model="config.black"
-            placeholder="请输入"
+            :placeholder="$t('select_placeholder')"
           ></el-checkbox>
         </el-form-item>
-        <el-form-item label="输出速度">
+        <el-form-item :label="$t('output_speed')">
           <template #label>
-            <el-tooltip content="输出速度越快,质量越低">
-              输出速度
+            <el-tooltip :content="$t('output_speed_tip')">
+              {{ $t('output_speed') }}
             </el-tooltip>
           </template>
           <el-select
             v-model="config.preset"
-            placeholder="请输入"
+            :placeholder="$t('select_placeholder')"
           >
             <el-option
               v-for="item in preset"
@@ -285,7 +285,7 @@ async function handleTranscoding() {
     </div>
     <div class="operate">
       <el-button type="primary" @click="handleTranscoding">
-        输出
+        {{ $t('output') }}
       </el-button>
     </div>
     <progress-loading v-bind="percentageLoading" />

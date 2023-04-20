@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-04-19 15:56:12
+ * @LastEditTime: 2023-04-20 17:20:00
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
@@ -28,7 +28,7 @@ import Transcoding from './components/Transcoding.vue';
 import { CommonConfig } from './type';
 
 const config = reactive<CommonConfig>({
-  name: '输出',
+  name: i18n.global.t('output'),
 });
 const ffmpeg = ref<FFmpeg | null>(null);
 
@@ -127,13 +127,13 @@ init();
     :element-loading-text="loading.text"
   >
     <el-collapse v-model="collapseActiveName">
-      <el-collapse-item title="基本信息" name="1">
+      <el-collapse-item :title="$t('basic_info')" name="1">
         <info-table :data="basicInfo" />
       </el-collapse-item>
-      <el-collapse-item title="视频流信息" name="2">
+      <el-collapse-item :title="$t('video_info')" name="2">
         <info-table :data="info.video" />
       </el-collapse-item>
-      <el-collapse-item title="音频流信息" name="3">
+      <el-collapse-item :title="$t('audio_info')" name="3">
         <info-table :data="info.audio" />
       </el-collapse-item>
     </el-collapse>
@@ -149,23 +149,26 @@ init();
       </div> -->
 
     <div class="config">
-      <h2>通用导出配置:</h2>
+      <h2>{{ $t('common_config') }}:</h2>
       <el-form
         label-position="left"
         label-width="100px"
         :model="config"
       >
-        <el-form-item label="输出名称">
+        <el-form-item :label="$t('output_name')">
           <el-input
             v-model="config.name"
-            placeholder="请输入"
+            :placeholder="$t('text_placeholder')"
           ></el-input>
         </el-form-item>
       </el-form>
     </div>
     <div class="operate">
       <el-tabs v-model="activeName" @tab-click="onTabClick">
-        <el-tab-pane name="transcoding" label="转换">
+        <el-tab-pane
+          name="transcoding"
+          :label="$t('trans')"
+        >
           <Transcoding
             :config="config"
             :encoder="ffmpeg"
@@ -174,20 +177,20 @@ init();
         </el-tab-pane>
         <el-tab-pane
           name="Config"
-          label="提取字幕"
+          :label="$t('extract_sub')"
         ></el-tab-pane>
         <!-- TODO:音频提取可直接转到Audio -->
         <el-tab-pane
           name="Role"
-          label="提取音频"
+          :label="$t('extract_audio')"
         ></el-tab-pane>
         <el-tab-pane
           name="waterMark"
-          label="水印"
+          :label="$t('watermark')"
         ></el-tab-pane>
         <el-tab-pane
           name="screenshot"
-          label="截图"
+          :label="$t('screenshot')"
         ></el-tab-pane>
       </el-tabs>
     </div>
