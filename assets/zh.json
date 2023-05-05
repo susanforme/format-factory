@@ -98,5 +98,15 @@
   "StreamSize_Proportion": "流大小比例",
   "Width": "宽度",
   "Height": "高度",
-  "FileSize": "文件大小"
+  "FileSize": "文件大小",
+  "UniqueID": "唯一ID",
+  "Language": "语言",
+  "Delay": "延迟",
+  "Delay_Source": "延迟来源",
+  "Delay_DropFrame": "延迟丢帧",
+  "Delay_SourceTimeCode": "延迟来源时间码",
+  "Delay_FirstFrame": "延迟第一帧",
+  "Delay_Source_Clock": "延迟来源时钟",
+  "FrameRate_Mode": "帧率模式",
+  "Format_Version": "格式版本"
 }
