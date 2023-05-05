@@ -91,5 +91,11 @@
   "AlternateGroup": "субститутивная группа",
   "extract_sub": "извлечь субтитры",
   "extract_audio": "извлечение аудио",
-  "watermark": "водяной знак"
+  "watermark": "водяной знак",
+  "screenshot": "скриншот",
+  "Format_Settings_SBR": "формат SBR",
+  "Format_AdditionalFeatures": "форматирование дополнительной функции",
+  "StreamSize_Proportion": "коэффициент размера потока",
+  "Width": "ширина",
+  "Height": "высота"
 }

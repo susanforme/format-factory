@@ -91,5 +91,11 @@
   "AlternateGroup": "Ersatzgruppe",
   "extract_sub": "Untertitel extrahieren",
   "extract_audio": "Audio extrahieren",
-  "watermark": "Wasserzeichen"
+  "watermark": "Wasserzeichen",
+  "screenshot": "Screenshot",
+  "Format_Settings_SBR": "Format SBR",
+  "Format_AdditionalFeatures": "Format zusätzliche Funktion",
+  "StreamSize_Proportion": "Verhältnis der Strömung",
+  "Width": "Breite",
+  "Height": "Höhe"
 }

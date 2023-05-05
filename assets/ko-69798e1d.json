@@ -91,5 +91,11 @@
   "AlternateGroup": "대체 그룹",
   "extract_sub": "캡션 추출",
   "extract_audio": "오디오 추출",
-  "watermark": "워터마크"
+  "watermark": "워터마크",
+  "screenshot": "스크린샷",
+  "Format_Settings_SBR": "서식 SBR",
+  "Format_AdditionalFeatures": "형식 추가 기능",
+  "StreamSize_Proportion": "흐름 크기 비율",
+  "Width": "폭",
+  "Height": "높이"
 }

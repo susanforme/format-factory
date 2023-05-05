@@ -91,5 +91,11 @@
   "AlternateGroup": "Substitute group",
   "extract_sub": "Extract subtitles",
   "extract_audio": "Extract audio",
-  "watermark": "Watermark"
+  "watermark": "Watermark",
+  "screenshot": "Screenshot",
+  "Format_Settings_SBR": "Format SBR",
+  "Format_AdditionalFeatures": "Format additional function",
+  "StreamSize_Proportion": "Flow size ratio",
+  "Width": "Width",
+  "Height": "Height"
 }

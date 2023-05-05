@@ -92,5 +92,11 @@
   "extract_sub": "提取字幕",
   "extract_audio": "提取音频",
   "watermark": "水印",
-  "screenshot": "截图"
+  "screenshot": "截图",
+  "Format_Settings_SBR": "格式设置SBR",
+  "Format_AdditionalFeatures": "格式附加功能",
+  "StreamSize_Proportion": "流大小比例",
+  "Width": "宽度",
+  "Height": "高度",
+  "FileSize": "文件大小"
 }

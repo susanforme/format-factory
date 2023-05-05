@@ -91,5 +91,11 @@
   "AlternateGroup": "Groupe de remplacement",
   "extract_sub": "Extraire les sous-titres",
   "extract_audio": "Extraire l'audio",
-  "watermark": "Filigrane"
+  "watermark": "Filigrane",
+  "screenshot": "Capture d'écran",
+  "Format_Settings_SBR": "Format SBR",
+  "Format_AdditionalFeatures": "Fonction supplémentaire de formatage",
+  "StreamSize_Proportion": "Rapport de la taille du débit",
+  "Width": "Largeur",
+  "Height": "Hauteur"
 }

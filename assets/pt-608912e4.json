@@ -91,5 +91,11 @@
   "AlternateGroup": "Grupo de substituição",
   "extract_sub": "Extrair as legendas",
   "extract_audio": "Extrair áudio de áudio",
-  "watermark": "Marca de água"
+  "watermark": "Marca de água",
+  "screenshot": "Escorpião",
+  "Format_Settings_SBR": "Formato SBR",
+  "Format_AdditionalFeatures": "Formato da função adicional",
+  "StreamSize_Proportion": "Razão de dimensão do fluxo",
+  "Width": "Largura",
+  "Height": "Altura"
 }

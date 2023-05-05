@@ -91,5 +91,11 @@
   "AlternateGroup": "Gruppo sostitutivo",
   "extract_sub": "Estrarre sottotitoli",
   "extract_audio": "Estrarre audio",
-  "watermark": "Filigrana"
+  "watermark": "Filigrana",
+  "screenshot": "Screenshot",
+  "Format_Settings_SBR": "Formato SBR",
+  "Format_AdditionalFeatures": "Formare la funzione aggiuntiva",
+  "StreamSize_Proportion": "Rapporto dimensione del flusso",
+  "Width": "Larghezza",
+  "Height": "Altezza"
 }

@@ -91,5 +91,11 @@
   "AlternateGroup": "Yedek grup",
   "extract_sub": "Altyazıları Çıkar",
   "extract_audio": "Sesi Çıkar",
-  "watermark": "FiligranGenericName"
+  "watermark": "FiligranGenericName",
+  "screenshot": "Ekran Görüntüsü",
+  "Format_Settings_SBR": "HTR Biçimini Biçimle",
+  "Format_AdditionalFeatures": "Ek fonksiyonu biçimlendir",
+  "StreamSize_Proportion": "Akış boyutu oranı",
+  "Width": "Genişlik",
+  "Height": "Yükseklik"
 }

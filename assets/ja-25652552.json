@@ -91,5 +91,11 @@
   "AlternateGroup": "代替班",
   "extract_sub": "字幕を抽出する",
   "extract_audio": "音声を抽出する",
-  "watermark": "透かし.透かし"
+  "watermark": "透かし.透かし",
+  "screenshot": "スクリーンショット",
+  "Format_Settings_SBR": "フォーマット設定SBR",
+  "Format_AdditionalFeatures": "フォーマット付加機能",
+  "StreamSize_Proportion": "流大きさの割合",
+  "Width": "幅.幅",
+  "Height": "高さ"
 }

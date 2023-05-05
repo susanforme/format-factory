@@ -91,5 +91,11 @@
   "AlternateGroup": "替代組",
   "extract_sub": "提取字幕",
   "extract_audio": "提取音頻",
-  "watermark": "水印"
+  "watermark": "水印",
+  "screenshot": "截圖",
+  "Format_Settings_SBR": "格式設置SBR",
+  "Format_AdditionalFeatures": "格式附加功能",
+  "StreamSize_Proportion": "流大小比例",
+  "Width": "寬度",
+  "Height": "高度"
 }

@@ -91,5 +91,11 @@
   "AlternateGroup": "Grupo sustituto",
   "extract_sub": "Extraer subtítulos",
   "extract_audio": "Extraer audio",
-  "watermark": "Marca de agua"
+  "watermark": "Marca de agua",
+  "screenshot": "Captura de pantalla",
+  "Format_Settings_SBR": "Formato SBR",
+  "Format_AdditionalFeatures": "Formato función adicional",
+  "StreamSize_Proportion": "Relación de tamaño de flujo",
+  "Width": "Anchura",
+  "Height": "Altura"
 }
