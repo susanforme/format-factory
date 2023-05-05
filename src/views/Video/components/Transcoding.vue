@@ -1,11 +1,12 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-27 15:38:33
- * @LastEditTime: 2023-04-20 17:17:56
+ * @LastEditTime: 2023-05-05 16:56:50
  * @FilePath: \format-factory\src\views\Video\components\Transcoding.vue
  * @Description: 
 -->
 <script lang="ts" setup>
+import { i18n } from '@/locales';
 import {
   downloadUnit8Array,
   getFileNameWithoutExt,
@@ -62,39 +63,39 @@ const percentageLoading = reactive({
 
 const preset = [
   {
-    label: 'ultrafast',
+    label: i18n.global.t('ultrafast'),
     value: 'ultrafast',
   },
   {
-    label: 'superfast',
+    label: i18n.global.t('superfast'),
     value: 'superfast',
   },
   {
-    label: 'veryfast',
+    label: i18n.global.t('veryfast'),
     value: 'veryfast',
   },
   {
-    label: 'faster',
+    label: i18n.global.t('faster'),
     value: 'faster',
   },
   {
-    label: 'fast',
+    label: i18n.global.t('fast'),
     value: 'fast',
   },
   {
-    label: 'medium',
+    label: i18n.global.t('medium'),
     value: 'medium',
   },
   {
-    label: 'slow',
+    label: i18n.global.t('slow'),
     value: 'slow',
   },
   {
-    label: 'slower',
+    label: i18n.global.t('slower'),
     value: 'slower',
   },
   {
-    label: 'veryslow',
+    label: i18n.global.t('veryslow'),
     value: 'veryslow',
   },
 ];
