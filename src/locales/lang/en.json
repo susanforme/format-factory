@@ -1,6 +1,6 @@
 {
-  "os": "Operating system",
-  "browser": "browser",
+  "os": "System",
+  "browser": "Browser",
   "cpu": "CPU",
   "sys_info": "System information",
   "video": "Video",
