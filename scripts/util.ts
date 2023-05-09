@@ -1,13 +1,15 @@
 /*
  * @Author: [susanforme]
  * @Date: 2023-02-04 11:16:04
- * @LastEditTime: 2023-04-14 11:08:57
+ * @LastEditTime: 2023-05-09 15:01:44
  * @FilePath: \format-factory\scripts\util.ts
  * @Description:
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
+import db from '../assets/zh.json';
+const enKeys = Object.keys(db);
 
 /**
  * @description:  request limit queue
@@ -95,4 +97,70 @@ export function objectAssembly<T extends any>(
     obj[key] = values[index];
   });
   return obj;
+}
+/**
+ *
+ * @param text  the text of translate
+ * @param writePath the path of write file
+ */
+export async function writeTranslateJsonFile(
+  texts: string[],
+  filename: string,
+  writePath: string,
+) {
+  const langPath = path.resolve(__dirname, writePath);
+  const existedTexts = await readTranslateFile(
+    filename,
+    writePath,
+  );
+  const translateTexts = {
+    ...objectAssembly(enKeys, texts),
+    // 以已存在的翻译内容为主
+    ...existedTexts,
+  };
+
+  const isSuccess = await new Promise<boolean>(resolve => {
+    fs.writeFile(
+      `${langPath}/${filename}.json`,
+      JSON.stringify(translateTexts),
+      err => {
+        if (err) {
+          console.log(err, 'writeFile error');
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      },
+    );
+  });
+  return isSuccess;
+}
+
+/**
+ * @description 返回一个已经存在的翻译内容
+ */
+export function readTranslateFile(
+  filename: string,
+  writePath: string,
+) {
+  const langPath = path.resolve(__dirname, writePath);
+  return new Promise<Record<string, any>>(resolve => {
+    fs.readFile(
+      `${langPath}/${filename}.json`,
+      (err, data) => {
+        if (err) {
+          console.error(err);
+          resolve({});
+        } else {
+          try {
+            const text = JSON.parse(data.toString());
+            resolve(text);
+          } catch (error) {
+            console.error(error);
+            resolve({});
+          }
+        }
+      },
+    );
+  });
 }
