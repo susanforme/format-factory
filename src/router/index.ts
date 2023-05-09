@@ -1,7 +1,7 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-03-10 15:12:33
- * @LastEditTime: 2023-04-20 17:03:52
+ * @LastEditTime: 2023-05-09 14:08:34
  * @FilePath: \format-factory\src\router\index.ts
  * @Description:
  */
@@ -24,20 +24,28 @@ export const router = createRouter({
       redirect: '/en/video',
     },
     {
-      name: 'video',
-      path: '/:locale/video',
-      component: () => import('@/views/Video/Video.vue'),
-    },
-    {
-      name: 'pic',
-      path: '/:locale/picture',
-      component: () =>
-        import('@/views/Picture/Picture.vue'),
-    },
-    {
-      name: 'audio',
-      path: '/:locale/audio',
-      component: () => import('@/views/Audio/Audio.vue'),
+      name: 'language',
+      path: '/:locale',
+      children: [
+        {
+          name: 'video',
+          path: 'video',
+          component: () =>
+            import('@/views/Video/Video.vue'),
+        },
+        {
+          name: 'pic',
+          path: 'picture',
+          component: () =>
+            import('@/views/Picture/Picture.vue'),
+        },
+        {
+          name: 'audio',
+          path: 'audio',
+          component: () =>
+            import('@/views/Audio/Audio.vue'),
+        },
+      ],
     },
   ],
 });

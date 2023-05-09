@@ -1,20 +1,13 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-03-29 14:54:05
- * @LastEditTime: 2023-04-06 17:16:54
+ * @LastEditTime: 2023-05-09 14:33:15
  * @FilePath: \format-factory\src\constants\index.ts
  * @Description:
  */
 
 export const MAGIC_STRING = '!@#$%';
 
-/*
- * @Author: zhicheng ran
- * @Date: 2023-04-04 16:06:38
- * @LastEditTime: 2023-04-04 16:06:39
- * @FilePath: \format-factory\constants\index.ts
- * @Description:
- */
 /** List of all languages supported   */
 export enum LANGUAGE_CODE {
   /** chinese */
@@ -72,6 +65,9 @@ export const LANGUAGE_NAME: Record<LANGUAGE_CODE, string> =
     tr: 'Türkçe',
   };
 
+/**
+ * @description: 导出element-plus的语言包 并保证en一定存在
+ */
 export const ELEMENT_LOCALE = new Proxy<
   Record<string, () => Promise<any>>
 >(

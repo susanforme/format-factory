@@ -33,7 +33,7 @@ watch(
 
 const handleExceed: UploadProps['onExceed'] = files => {
   upload.value!.clearFiles();
-  const file = files[0] as UploadRawFile;
+  const file = files?.[0] as UploadRawFile;
   file.uid = genFileId();
   upload.value!.handleStart(file);
 };
@@ -43,9 +43,9 @@ const ua = new UAParser(
 ).getResult();
 
 const basicInfo = computed(() => ({
-  browser: `${ua.browser.name} ${ua.browser.version} `,
-  os: `${ua.os.name} ${ua.os.version}`,
-  cpu: `${ua.cpu.architecture}`,
+  browser: `${ua.browser?.name} ${ua.browser?.version} `,
+  os: `${ua.os?.name} ${ua.os?.version}`,
+  cpu: `${ua.cpu?.architecture}`,
 }));
 </script>
 

@@ -1,12 +1,13 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-04-04 16:21:23
- * @LastEditTime: 2023-04-10 15:17:40
+ * @LastEditTime: 2023-05-09 14:36:19
  * @FilePath: \format-factory\src\locales\index.ts
  * @Description:
  */
 import { ELEMENT_LOCALE } from '@/constants';
 import { locale as LocalInstance } from '@/store';
+import { ElMessage } from 'element-plus';
 import { nextTick } from 'vue';
 import { createI18n, I18n, Locale } from 'vue-i18n';
 import en from './lang/en.json';
@@ -50,17 +51,28 @@ export async function loadLocaleMessages(
   i18n: I18n,
   locale: Locale,
 ) {
-  // load locale messages with dynamic import
-  const data = await fetch(
-    new URL(`./lang/${locale}.json`, import.meta.url).href,
-  );
-  const messages = JSON.parse(await data.text());
-  // load element-plus lang
-  const { default: lang } = await ELEMENT_LOCALE[locale]();
+  try {
+    // load locale messages with dynamic import
+    const data = await fetch(
+      new URL(`./lang/${locale}.json`, import.meta.url)
+        .href,
+    );
+    const messages = JSON.parse(await data.text());
+    // load element-plus lang
+    const { default: lang } = await ELEMENT_LOCALE[
+      locale
+    ]();
 
-  // set element-plus lang
-  LocalInstance.value = lang;
-  // set locale and locale message
-  i18n.global.setLocaleMessage(locale, messages);
+    // set element-plus lang
+    LocalInstance.value = lang;
+    // set locale and locale message
+    i18n.global.setLocaleMessage(locale, messages);
+  } catch (error) {
+    ElMessage({
+      message: 'Language loading failure',
+      type: 'error',
+    });
+    console.error(error);
+  }
   return nextTick();
 }

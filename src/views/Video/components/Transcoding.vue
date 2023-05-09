@@ -1,12 +1,15 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-27 15:38:33
- * @LastEditTime: 2023-05-05 16:56:50
+ * @LastEditTime: 2023-05-09 14:30:38
  * @FilePath: \format-factory\src\views\Video\components\Transcoding.vue
  * @Description: 
 -->
 <script lang="ts" setup>
-import { i18n } from '@/locales';
+import {
+  FFMPEG_PRESET,
+  FFMPEG_VIDEO_FORMATS,
+} from '@/constants/video';
 import {
   downloadUnit8Array,
   getFileNameWithoutExt,
@@ -24,26 +27,7 @@ const props = defineProps<{
   file: UploadUserFile;
   config: CommonConfig;
 }>();
-// 视频格式
-const formats = [
-  'mp4',
-  'webm',
-  'ogg',
-  'avi',
-  'mov',
-  'flv',
-  'wmv',
-  'mkv',
-  'm4v',
-  '3gp',
-  '3g2',
-  'ts',
-  'mts',
-  'm2ts',
-  'vob',
-  'mxf',
-  'f4v',
-];
+
 const config = reactive({
   format: 'mp4',
   kbps: 1000,
@@ -60,45 +44,6 @@ const percentageLoading = reactive({
   text: '',
   tip: '',
 });
-
-const preset = [
-  {
-    label: i18n.global.t('ultrafast'),
-    value: 'ultrafast',
-  },
-  {
-    label: i18n.global.t('superfast'),
-    value: 'superfast',
-  },
-  {
-    label: i18n.global.t('veryfast'),
-    value: 'veryfast',
-  },
-  {
-    label: i18n.global.t('faster'),
-    value: 'faster',
-  },
-  {
-    label: i18n.global.t('fast'),
-    value: 'fast',
-  },
-  {
-    label: i18n.global.t('medium'),
-    value: 'medium',
-  },
-  {
-    label: i18n.global.t('slow'),
-    value: 'slow',
-  },
-  {
-    label: i18n.global.t('slower'),
-    value: 'slower',
-  },
-  {
-    label: i18n.global.t('veryslow'),
-    value: 'veryslow',
-  },
-];
 
 async function handleTranscoding() {
   try {
@@ -190,11 +135,7 @@ async function handleTranscoding() {
     }
     downloadUnit8Array(output, 'video/mp4', outputFileName);
   } catch (error: any) {
-    console.log(
-      '%c [ error ]-156',
-      'font-size:13px; background:pink; color:#bf2c9f;',
-      error,
-    );
+    console.error(error);
     ElMessage({
       message: '转换失败',
       type: 'error',
@@ -221,7 +162,7 @@ async function handleTranscoding() {
             :placeholder="$t('select_placeholder')"
           >
             <el-option
-              v-for="item in formats"
+              v-for="item in FFMPEG_VIDEO_FORMATS"
               :key="item"
               :label="item"
               :value="item"
@@ -275,7 +216,7 @@ async function handleTranscoding() {
             :placeholder="$t('select_placeholder')"
           >
             <el-option
-              v-for="item in preset"
+              v-for="item in FFMPEG_PRESET"
               :key="item.value"
               :label="item.label"
               :value="item.value"

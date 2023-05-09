@@ -8,5 +8,3 @@ import App from './App.vue';
     <App />
   </el-config-provider>
 </template>
-
-<style scoped lang="less"></style>
