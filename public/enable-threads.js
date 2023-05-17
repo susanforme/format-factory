@@ -1,10 +1,3 @@
-// NOTE: This file creates a service worker that cross-origin-isolates the page (read more here: https://web.dev/coop-coep/) which allows us to use wasm threads.
-// Normally you would set the COOP and COEP headers on the server to do this, but Github Pages doesn't allow this, so this is a hack to do that.
-
-/* Edited version of: coi-serviceworker v0.1.7 - rzc, licensed under MIT */
-// From here: https://github.com/gzuidhof/coi-serviceworker
-
-// when modifying this file, make sure to update the version number in the path (public\enable-threads.js?v=0.1.7) so that the service worker is updated
 const CACHE_VERSION = "v2";
 
 /**@type {ServiceWorkerGlobalScope} sw */
