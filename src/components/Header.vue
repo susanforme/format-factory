@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-04-04 16:47:03
- * @LastEditTime: 2023-04-07 14:48:02
+ * @LastEditTime: 2023-05-17 14:36:53
  * @FilePath: \format-factory\src\components\Header.vue
  * @Description: 
 -->
@@ -25,7 +25,10 @@ watch(
 );
 
 const routes = router.getRoutes().filter(route => {
-  return route.redirect === undefined;
+  return (
+    route.redirect === undefined &&
+    route.path !== '/:locale'
+  );
 });
 
 const handleSelect = (key: string) => {
