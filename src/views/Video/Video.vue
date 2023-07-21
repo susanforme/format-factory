@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-07-21 15:31:50
+ * @LastEditTime: 2023-07-21 16:12:52
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
@@ -173,6 +173,7 @@ init();
             :config="config"
             :encoder="ffmpeg"
             :file="file"
+            :info="info"
           />
         </el-tab-pane>
         <el-tab-pane

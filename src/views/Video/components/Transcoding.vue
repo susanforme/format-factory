@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-27 15:38:33
- * @LastEditTime: 2023-05-09 14:30:38
+ * @LastEditTime: 2023-07-21 16:34:28
  * @FilePath: \format-factory\src\views\Video\components\Transcoding.vue
  * @Description: 
 -->
@@ -19,25 +19,40 @@ import {
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import type { UploadUserFile } from 'element-plus';
 import { ElMessage } from 'element-plus';
-import { reactive } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { CommonConfig } from '../type';
 
 const props = defineProps<{
   encoder: FFmpeg | null;
   file: UploadUserFile;
   config: CommonConfig;
+  info: {
+    audio: Record<string, string>;
+    video: Record<string, string>;
+    basic: Record<string, string>;
+  };
 }>();
 
-const config = reactive({
+const config = ref<FormConfig>({
   format: 'mp4',
-  kbps: 1000,
-  frameRate: 60,
-  width: 1920,
-  height: 1080,
   resolution: 1080,
   black: false,
   preset: 'medium',
 });
+
+watch(props.info, () => {
+  const { Width, Height, FrameRate } = props.info.video;
+  const res = {
+    width: Number(Width),
+    height: Number(Height),
+    frameRate: Number(FrameRate),
+  };
+  config.value = {
+    ...config.value,
+    ...res,
+  };
+});
+
 const percentageLoading = reactive({
   loading: false,
   percentage: 0,
@@ -92,10 +107,9 @@ async function handleTranscoding() {
       width,
       height,
       resolution,
-      kbps,
       black,
       preset,
-    } = config;
+    } = config.value;
     const cmd = objToFFmpegCmd({
       // 输入视频文件
       '-i': props.file.name,
@@ -108,18 +122,18 @@ async function handleTranscoding() {
         black ? '' : ' ,hue=s=0'
       }`,
       // 码率
-      '-b': `${kbps}k`,
+      // '-b': `${kbps}k`,
       // 黑白
       // 去除音频
       // '-an': '',
       // '-vf': 'hue=s=0',
       // 输出质量,指定输出的视频质量，会影响文件的生成速度
-      '-preset': preset,
+      '-preset': preset!,
       //  ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow
     });
     const outputFileName = `${getFileNameWithoutExt(
       props.config.name,
-    )}.${format.toLowerCase()}`;
+    )}.${format?.toLowerCase()}`;
     console.log(
       '%c [ config ]-70',
       'font-size:13px; background:pink; color:#bf2c9f;',
@@ -144,6 +158,16 @@ async function handleTranscoding() {
   percentageLoading.loading = false;
   percentageLoading.tip = '';
 }
+
+type FormConfig = Partial<{
+  width: number;
+  height: number;
+  frameRate: number;
+  format: string;
+  resolution: number;
+  black: boolean;
+  preset: string;
+}>;
 </script>
 
 <template>
@@ -169,12 +193,12 @@ async function handleTranscoding() {
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('code_rate')">
+        <!-- <el-form-item :label="$t('code_rate')">
           <el-input
             v-model="config.kbps"
             :placeholder="$t('text_placeholder')"
           ></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item :label="$t('FrameRate')">
           <el-input
             v-model="config.frameRate"

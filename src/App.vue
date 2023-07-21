@@ -13,11 +13,16 @@ import { fileList } from './store';
 
 const upload = ref<UploadInstance>();
 const route = useRoute();
+
 const accept = computed(() => {
-  if (route.path === '/video') {
-    return 'video/*';
-  } else if (route.path === '/picture') {
-    return 'audio/*';
+  const map = {
+    video: 'video/*',
+    picture: 'image/*',
+  };
+  for (const key in map) {
+    if (route.path.includes(`/${key}`)) {
+      return map[key as keyof typeof map];
+    }
   }
   return '';
 });
