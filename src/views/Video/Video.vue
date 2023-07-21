@@ -1,7 +1,7 @@
 <!--
  * @Author: zhicheng ran
  * @Date: 2023-03-23 13:59:34
- * @LastEditTime: 2023-04-20 17:20:00
+ * @LastEditTime: 2023-07-21 15:31:50
  * @FilePath: \format-factory\src\views\Video\Video.vue
  * @Description: 
 -->
@@ -19,11 +19,11 @@ import {
   fileToUnit8Array,
   formatFileSize,
   getMediaInfo,
-  initFfmpeg,
 } from '@/utils';
 
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 
+import { FFmpegGenerator } from '@/utils/ffmpeg';
 import Transcoding from './components/Transcoding.vue';
 import { CommonConfig } from './type';
 
@@ -35,7 +35,7 @@ const ffmpeg = ref<FFmpeg | null>(null);
 const activeName = ref('transcoding');
 const collapseActiveName = ref('-1');
 
-const info = ref({
+const info = reactive({
   audio: {},
   video: {},
   basic: {},
@@ -44,7 +44,7 @@ const info = ref({
 const basicInfo = computed(() => ({
   file_n: file.value.name,
   file_s: formatFileSize(file.value.size!),
-  ...info.value.basic,
+  ...info.basic,
 }));
 
 const loading = reactive({
@@ -56,7 +56,7 @@ const file = computed(() => fileList.value[0]);
 async function initEncoder() {
   loading.value = true;
   loading.text = '初始化编解码器中...';
-  ffmpeg.value = await initFfmpeg();
+  ffmpeg.value = await FFmpegGenerator.init();
   ffmpeg?.value.setLogger(({ type, message }) => {
     console.log(type, message);
   });
@@ -93,17 +93,17 @@ async function getInfo() {
   for (const track of result.media.track) {
     const { '@type': type, ...rest } = track;
     if (type === 'Video') {
-      info.value.video = {
+      info.video = {
         ...rest,
         '@type': i18n.global.t('video'),
       };
     } else if (type === 'Audio') {
-      info.value.audio = {
+      info.audio = {
         ...rest,
         '@type': i18n.global.t('audio'),
       };
     } else if (type === 'General') {
-      info.value.basic = rest;
+      info.basic = rest;
     }
   }
   await ensure(() => !!ffmpeg.value);

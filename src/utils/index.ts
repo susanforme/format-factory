@@ -2,55 +2,6 @@ import type { FFmpeg } from '@ffmpeg/ffmpeg';
 import { ResultObject } from 'mediainfo.js/dist/types';
 import { version } from '../../package.json';
 
-let ffmpeg: FFmpeg | null = null;
-/**
- @description 初始化ffmpeg
- * https://github.com/ffmpegwasm/ffmpeg.wasm/issues/121#issuecomment-1111638578
- */
-export async function initFfmpeg() {
-  if (!ffmpeg) {
-    const { createFFmpeg } = await import('@ffmpeg/ffmpeg');
-    const ffmpegInstance = createFFmpeg({
-      log: true,
-      progress: p => {
-        console.log(p);
-      }, //回调 展示进度
-      workerPath: new URL(
-        '../lib/ffmpeg/ffmpeg-core.worker.js',
-        import.meta.url,
-      ).href,
-      corePath: new URL(
-        '../lib/ffmpeg/ffmpeg-core.js',
-        import.meta.url,
-      ).href,
-      wasmPath: new URL(
-        '../lib/ffmpeg/ffmpeg-core.wasm',
-        import.meta.url,
-      ).href,
-      //TODO:  低版本报错 低版本手动构建 https://github.com/ffmpegwasm/ffmpeg.wasm/issues/137#issuecomment-1014956114
-      // ...(isDev
-      //   ? {
-      //       corePath: new URL("@ffmpeg/core/dist/ffmpeg-core.js", import.meta.url)
-      //         .href,
-      //     }
-      //   : {}),
-    });
-    await ffmpegInstance.load();
-    ffmpeg = ffmpegInstance;
-    return ffmpegInstance;
-  } else {
-    return ffmpeg;
-  }
-}
-
-/**
- * @description 销毁ffmpeg
- */
-export function destoryFfmpeg() {
-  ffmpeg?.exit();
-  ffmpeg = null;
-}
-
 /**
  * @description 生成初音未来logo
  */
